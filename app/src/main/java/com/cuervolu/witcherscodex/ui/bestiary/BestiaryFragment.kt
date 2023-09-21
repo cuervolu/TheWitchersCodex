@@ -17,6 +17,7 @@ import com.cuervolu.witcherscodex.adapters.CharacterAdapter
 import com.cuervolu.witcherscodex.databinding.FragmentBestiaryBinding
 import com.cuervolu.witcherscodex.domain.models.Bestiary
 import com.cuervolu.witcherscodex.domain.models.Character
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -25,6 +26,7 @@ import kotlinx.coroutines.launch
 class BestiaryFragment : Fragment() {
 
     private lateinit var binding: FragmentBestiaryBinding
+    private lateinit var fab: FloatingActionButton
     private val bestiaryViewModel: BestiaryViewModel by viewModels()
     private val bestiaryAdapter = BestiaryAdapter { monster -> onItemSelected(monster) }
 
@@ -33,6 +35,7 @@ class BestiaryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentBestiaryBinding.inflate(inflater, container, false)
+        fab = FloatingActionButton(requireContext())
         return binding.root
     }
 

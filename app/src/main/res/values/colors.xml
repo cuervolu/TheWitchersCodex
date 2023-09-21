@@ -21,6 +21,7 @@
     <color name="warning">#F0A500</color>
 
     <color name="accent">#569B51</color>
+    <color name="accent_dark">#3F713B</color>
 
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/primary
     </color>

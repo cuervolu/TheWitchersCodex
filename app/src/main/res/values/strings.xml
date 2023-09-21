@@ -62,4 +62,5 @@
     <string name="dialog_confirmation_negative">I changed my mind</string>
     <string name="logout_confirmation_title">Do you want to log out?</string>
     <string name="logout_confirmation_message">We will miss you :(</string>
+    <string name="add_monster">Add Monster</string>
 </resources>
