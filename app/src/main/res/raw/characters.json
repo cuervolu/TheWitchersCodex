@@ -1,0 +1,226 @@
+{
+  "characters": [
+    {
+      "name": "Geralt of Rivia",
+      "alias": [
+        "White Wolf",
+        "Gwynbleidd",
+        "White One",
+        "Butcher of Blaviken",
+        "Ravix of Fourhorn"
+      ],
+      "basic_information": {
+        "hair_color": "Milk-white",
+        "eye_color": "Dark, unspecified color",
+        "skin": "Pale",
+        "race": "Human (Witcher)",
+        "gender": "Male"
+      },
+      "personal_information": {
+        "titles": ["Knight (knighted by Meve)"],
+        "profession": "Witcher",
+        "affiliations": ["Wolf School"],
+        "abilities": [
+          "Superhuman abilities",
+          "Swordsmanship",
+          "Alchemy",
+          "Signs"
+        ],
+        "family": {
+          "parents": {
+            "mother": "Visenna",
+            "father": "Korin"
+          },
+          "partners": ["Yennefer", "Triss Merigold"],
+          "children": ["Ciri (adopted daughter)"]
+        }
+      },
+      "image_url": "https://firebasestorage.googleapis.com/v0/b/the-witcher-s-codex.appspot.com/o/images%2Fcharacters%2Fgeralt.webp?alt=media&token=a1c2d139-d2e6-4d4d-859a-b9f6a6f12d42",
+      "description": "Geralt of Rivia was a legendary witcher of the School of the Wolf active throughout the 13th century. He loved the sorceress Yennefer, considered the love of his life despite their tumultuous relationship, and became Ciri's adoptive father.\n\nDuring the Trial of the Grasses, Geralt exhibited unusual tolerance for the mutagens that grant witchers their abilities. Accordingly, Geralt was subjected to further experimental mutagens which rendered his hair white and may have given him greater speed, strength, and stamina than his fellow witchers.\n\nDespite his title, Geralt did not hail from the city of Rivia. After being left with the witchers by his mother, Visenna, he grew up in their keep of Kaer Morhen in the realm of Kaedwen. In the interest of appearing more trustworthy to potential clients, young witchers were encouraged to make up surnames for themselves by master Vesemir. As his first choice, Geralt chose 'Geralt Roger Eric du Haute-Bellegarde', but this choice was dismissed by Vesemir as silly and pretentious, so 'Geralt' was all that remained of his chosen name. 'Of Rivia' was a more practical alternative and Geralt even went so far as to adopt a Rivian accent to appear more authentic. Later, Queen Meve of Lyria knighted him for his valor in the Battle for the Bridge on the Yaruga, conferring on him the formal title 'of Rivia', which amused him. He, therefore, became a true knight.",
+      "age": "100+"
+    },
+    {
+      "name": "Cirilla Fiona Elen Riannon",
+      "alias": [
+        "Lion Cub of Cintra",
+        "Falka",
+        "Zireael",
+        "Swallow",
+        "Ashen one",
+        "Ugly one[1]",
+        "Lady of Space and Time",
+        "Lady of the Lake",
+        "Ciri of Vengerberg[2]"
+      ],
+      "basic_information": {
+        "hair_color": "Ashen-gray",
+        "eye_color": "Emerald-green",
+        "height": "5'9\" (175 cm)",
+        "race": "Human",
+        "gender": "Female",
+        "nationality": "Cintra"
+      },
+      "personal_information": {
+        "titles": [
+          "Heiress to the throne of Cintra",
+          "Heiress to Inis Ard Skellig and Inis An Skellig",
+          "Princess of Brugge (claimant)",
+          "Duchess of Sodden (claimant)",
+          "Suzerain of Attre and Abb Yarra (claimant, given to her double)",
+          "Witcher",
+          "Empress of Nilfgaard (dependent, games)"
+        ],
+        "abilities": [
+          "Elder blood gene",
+          "Swordsmanship",
+          "Magic (relinquished)"
+        ],
+        "family": {
+          "house": "House of Raven",
+          "parents": {
+            "mother": "Pavetta",
+            "father": "Emhyr var Emreis"
+          },
+          "adoptiveParents": {
+            "mother": "Yennefer",
+            "father": "Geralt of Rivia"
+          }
+        }
+      },
+      "image_url": "https://firebasestorage.googleapis.com/v0/b/the-witcher-s-codex.appspot.com/o/images%2Fcharacters%2Fciri.webp?alt=media&token=c093f4cc-a4b2-4c63-85d4-57ca50281e73",
+      "description": "Cirilla Fiona Elen Riannon (better known as Ciri), was born in 1252 or 1253, and most likely during the Belleteyn holiday. She was the sole princess of Cintra, the daughter of Pavetta and Emhyr var Emreis (who was using the alias 'Dun' at the time) as well as Queen Calanthe's granddaughter. \n\nAfter Geralt of Rivia helped lift Duny's curse, Duny asked what reward the witcher would like and Geralt invoked the Law of Surprise, as it turned out Pavetta was pregnant with Ciri, unbeknownst to Duny."
+    },
+    {
+      "name": "Emhyr var Emreis",
+      "alias": ["Duny", "Urcheon of Erlenwald"],
+      "basic_information": {
+        "hair_color": "Black",
+        "eye_color": "Brown",
+        "race": "Human",
+        "gender": "Male",
+        "nationality": "Lower Alba"
+      },
+      "personal_information": {
+        "titles": [
+          "Deithwen Addan yn Carn aep Morvudd",
+          "Emperor of Nilfgaard",
+          "King of Cintra",
+          "Lord of Metinna, Ebbing and Gemmera",
+          "Sovereign of Nazair and Vicovaro"
+        ],
+        "family": {
+          "parents": {
+            "father": "Fergus var Emreis"
+          },
+          "partners": [
+            "Pavetta (first wife, deceased)",
+            "Aine (lover, formerly)",
+            "Clara (lover, formerly)",
+            "Dervla (lover, formerly)",
+            "Cirilla (second wife)"
+          ],
+          "children": ["Ciri (daughter)"],
+          "relatives": [
+            "Anna Henrietta (cousin, unknown degree)",
+            "Sylvia Anna (cousin, unknown degree)"
+          ]
+        }
+      },
+      "status": "Deceased",
+      "image_url": "https://firebasestorage.googleapis.com/v0/b/the-witcher-s-codex.appspot.com/o/images%2Fcharacters%2Femhyr.webp?alt=media&token=e8317f75-f581-43e4-8b5c-a76a9bc7c9fc",
+      "description": "Emhyr var Emreis, Deithwen Addan yn Carn aep Morvudd (Nilfgaardian language: The White Flame Dancing on the Barrows of his Enemies), also known to a few under his alias as Duny, the Urcheon of Erlenwald (Polish: Jeż z Erlenwaldu) was Emperor of the Nilfgaardian Empire, Lord of Metinna, Ebbing, Gemmera, and Sovereign of Nazair and Vicovaro from 1257 until his death sometime in the late 13th century. He also became the King of Cintra after marrying a false Cirilla in 1268.\n\nHis rule of Nilfgaard was highly aggressive, often pursuing expansionist policies similar to those of his predecessors. This led to the outbreak of two wars against the Northern Kingdoms, both of which he lost. Emhyr var Emreis was an intelligent and brilliant ruler. He chose his people well and crushed many plots against him. He was ruthless toward traitors and moved towards his goals with great determination.\n\nHe was publicly favorable to the Elder Races, in stark contrast to monarchs of the North."
+    },
+    {
+      "name": "Gaunter O'Dimm",
+      "alias": [
+        "Man of Glass",
+        "Master Mirror",
+        "Merchant of Mirrors",
+        "Evil Incarnate"
+      ],
+      "basic_information": {
+        "hair_color": "Bald (black eyebrows)",
+        "eye_color": "Brown",
+        "gender": "Male"
+      },
+      "personal_information": {
+        "abilities": [
+          "Magic",
+          "Time manipulation",
+          "Wish granting",
+          "Teleportation"
+        ]
+      },
+      "image_url": "https://firebasestorage.googleapis.com/v0/b/the-witcher-s-codex.appspot.com/o/images%2Fcharacters%2Fodimm.webp?alt=media&token=09c51737-e765-45c7-a981-8367f7938883",
+      "description": "Gaunter O'Dimm, sometimes called Master Mirror or Man of Glass, was a powerful individual, creating pacts with people in exchange for their souls and being able to control time with a mere clap of his hands. Not much is known about Gaunter before his meeting with Geralt, but he stated that he was a former mirror merchant-turned-mangy vagrant because of the war.\n\nGaunter, while a primarily antagonistic entity, is a creature of extremes and ambiguity. While Shakeslock called him 'evil incarnate,' Gaunter doesn't fit so neatly into general nor absolute definitions. For the most part he is passive and almost never takes overt actions towards his aims. He often obscures his goals and desires and even the one definitive aim he has (the collection of souls) is wrapped in a veil of inscrutability as Gaunter never makes it clear which souls he is actively interested in or why.\n\nGaunter seems to take pleasure in the suffering of others, however he is only ever shown tormenting or harming people that have given him 'just cause.' He torments and savors the fear of those he makes deals with but only ever seems to make deals with malicious individuals who either are or capable of hurting people for their own ends such as Olgierd whom he rightly described as 'a degenerate monster.' In spite of this, Gaunter makes no distinctions between the severity of one's 'misdeeds' as he horribly cursed a noblewoman and ruined her life while twisting her into a monster for insulting him and refusing hospitality when he came to her door seeking a handout. He also ruthlessly tormented Olgierd's brother's ghost after the spirit refused to leave Geralt's body when Gaunter politely directed the ghost to return to its rest. Gaunter seems to use any excuse to enact torments on others and uses their 'offense' as justification to punish them while taking pleasure in their misery.\n\nFor all of Gaunter's devious and maliciousness, he can also be surprisingly good natured, fair, and even benign towards others. He engages in light hearted banter with common folk such as talking to women about baking while also enjoying the simple pleasures of the company of others and having a good drink. He speaks in a disgusted tone when talking about the sins of others like Olgierd while giving genuine advice to people he takes a liking to such as giving Geralt advice about making Shani happy and later (based in the player's choices) tells Geralt what he needs to know to save Ciri with a tone of sympathy in his voice. In fact, if Geralt performs all of his tasks for Gaunter an lets him take Olfgierd's soul, he rewards Geralt for his service with no strings attached nor clever wordplay to bring Geralt misfortune. ",
+      "status": "Unknown"
+    },
+    {
+      "name": "Yennefer of Vengerberg",
+      "alias": ["Janka", "Jenny", "Yen", "Yenna", "Horsewoman of War"],
+      "basic_information": {
+        "hair_color": "Black",
+        "eye_color": "Violet",
+        "skin": "Pale",
+        "race": "Quarter-elf",
+        "gender": "Female",
+        "born": "1173"
+      },
+      "personal_information": {
+        "profession": "Advisor",
+        "mage": "Mage",
+        "affiliations": [
+          "Lodge of Sorceresses",
+          "Demavend III (formerly)",
+          "Brotherhood of Sorcerers (formerly)",
+          "Council of Wizards (formerly)"
+        ],
+        "abilities": ["Magic"],
+        "family": {
+          "parents": {
+            "father": "Unnamed father (disowned)",
+            "mother": "Unnamed mother"
+          },
+          "partners": [
+            "Geralt of Rivia (love of her life in books, possible lover in games)",
+            "Istredd (lover, formerly)",
+            "Crach an Craite (lover, formerly)"
+          ],
+          "children": ["Ciri (adopted daughter)"]
+        }
+      },
+      "image_url": "https://firebasestorage.googleapis.com/v0/b/the-witcher-s-codex.appspot.com/o/images%2Fcharacters%2Fyennefer.webp?alt=media&token=7bcf3b16-002a-498f-bd45-bd6858c31159",
+      "description": "Yennefer of Vengerberg, born on Belleteyn in 1173, was a sorceress who lived in Vengerberg, the capital city of Aedirn. She was Geralt of Rivia's true love and a mother figure to Ciri, whom she viewed like a daughter to the point that she did everything she could to rescue the girl and keep her from harm. She helped advise King Demavend of Aedirn (though was never a formal royal advisor), a close friend of Triss Merigold, and the youngest member of the Council of Wizards within the Brotherhood of Sorcerers. After its fall, the Lodge of Sorceresses attempted to recruit her, but they didn't see eye to eye as the Lodge wanted to advance their own political agenda by using Ciri.",
+      "age": "Unknown"
+    },
+    {
+      "name": "Triss Merigold of Maribor",
+      "alias": ["Fourteenth of the Hill", "Merigold the Fearless"],
+      "basic_information": {
+        "hair_color": "Chestnut (canon)",
+        "eye_color": "Cornflower blue (canon)",
+        "race": "Human",
+        "gender": "Female",
+        "nationality": "Temeria Cedric"
+      },
+      "personal_information": {
+        "profession": "Advisor",
+        "mage": "Mage",
+        "affiliations": [
+          "King Foltest of Temeria",
+          "Lodge of Sorceresses",
+          "Temerian Royal Council"
+        ],
+        "abilities": ["Magic", "Alchemy"],
+        "family": {
+          "partners": [
+            "Geralt (former lover in books, possible lover in games)"
+          ]
+        }
+      },
+      "image_url":"https://firebasestorage.googleapis.com/v0/b/the-witcher-s-codex.appspot.com/o/images%2Fcharacters%2Ftriss.webp?alt=media&token=ce293eff-95eb-4242-bb14-bbb10ce6afca",
+      "description": "Triss Merigold of Maribor was a legendary Temerian sorceress of the 13th century. Called Fourteenth of the Hill by her contemporaries because she was erroneously thought to have been killed during the Battle of Sodden Hill, she passed into history as Merigold the Fearless. A former member of King Foltest's royal council along with Fercart and Keira Metz, as well as a founding member of the Lodge of Sorceresses, she was involved in politics for most of her life.\n\nShe was friends with Yennefer and the witcher Geralt of Rivia, but also unhappily in love with the latter.\n\nTriss took care of Ciri at Kaer Morhen for some time and is like an older sister to her. It was through her intervention that Ciri was not subjected to harmful hormone changes at Kaer Morhen, stripping her of her secondary gender traits. She was a skilled healer and carried with her many magical potions, but she never used them on herself because ironically, she was allergic to potions, and used amulets to treat herself. She was also quite a powerful mage, certainly when it counted most. She wore an amulet - sapphire overlaid with silver.",
+      "age": "Unknown"
+    }
+  ]
+}

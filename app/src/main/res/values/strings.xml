@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">The Witcher\'s Codex</string>
+    <string name="client_id">702743678592-rq20is8gi2pojcu90bmg5tkhk9rv2ffg.apps.googleusercontent.com</string>
+    <string name="login_subtitle"><![CDATA[Discover the Secrets of The Witcher World]]></string>
+    <string name="login_sign_in">Don\'t have an account yet? Check in</string>
+    <string name="login_button_loggin">LOGIN</string>
+    <string name="login_hint_password">Password</string>
+    <string name="login_hint_user">Username or password</string>
+    <string name="login_error_mail">Invalid email</string>
+    <string name="login_error_password">Must contain at least 6 characters</string>
+    <string name="login_footer_unselected">Don\'t have an account yet?</string>
+    <string name="login_footer_selected">Sign In</string>
+    <string name="login_error_dialog_title">We have not found the user</string>
+    <string name="login_error_dialog_body">Please check the data or try againo</string>
+    <string name="login_error_dialog_negative_action">Cancel</string>
+    <string name="login_error_dialog_positive_action">Retry</string>
+
+    <string name="introduction_button_signin">Create Account</string>
+
+    <string name="signin_form_real_name">Full name</string>
+    <string name="signin_form_nickname">Username</string>
+    <string name="signin_form_email">Email</string>
+    <string name="signin_form_password">Password</string>
+    <string name="signin_form_repeat_password">Repeat Password</string>
+    <string name="signin_error_mail">Invalid email</string>
+    <string name="signin_error_nickname">Must contain at least 6 characters</string>
+    <string name="signin_error_realname">Must contain at least 6 characters</string>
+    <string name="signin_error_password">The 2 passwords must be the same</string>
+    <string name="signin_footer_unselected">Do you already have an account?</string>
+    <string name="signin_footer_selected">Login</string>
+    <string name="signin_error_dialog_title">An error has occurred</string>
+    <string name="signin_error_dialog_body">We were unable to create your account, please try again later</string>
+    <string name="signin_error_dialog_positive_action">Okey :(</string>
+
+    <string name="verification_button_go_to_nuwe">Go Hunting</string>
+    <string name="verification_check_mail">To access the application, verify your email (remember to look in SPAM).</string>
+
+    <string name="dialog_success_title">¡Demo completa!</string>
+    <string name="dialog_success_body">"Espero que te haya gustado este login usando buenas prácticas y buen rollo :) "</string>
+    <string name="dialog_success_positive">Thanks!</string>
+
+    <string name="feature_not_allowed">Feature no solicitada :)</string>
+    <string name="signin_button_createaccount">Create an account</string>
+    <string name="title_gallery">Gallery</string>
+    <string name="title_home">Home</string>
+    <string name="title_profile">Profile</string>
+    <string name="search_text">Search…</string>
+    <string name="bestiary">Bestiary</string>
+    <string name="weapons">Weapons</string>
+    <string name="characters">Characters</string>
+    <string name="fun_facts">Fun Facts</string>
+    <string name="fun_facts_description">Discover fascinating facts about the world of The Witcher game series</string>
+    <string name="trending">Trending</string>
+    <string name="view_all">View All</string>
+    <string name="bestiary_Card">Popular Beasts</string>
+    <string name="ver_detalle">See detail</string>
+    <string name="username_placeholder">Username</string>
+    <string name="full_name">Full Name</string>
+    <string name="update">Update Fields</string>
+    <string name="log_out">Log out</string>
+    <string name="dialog_confirm">Confirm</string>
+    <string name="dialog_confirmation_negative">I changed my mind</string>
+    <string name="logout_confirmation_title">Do you want to log out?</string>
+    <string name="logout_confirmation_message">We will miss you :(</string>
+</resources>

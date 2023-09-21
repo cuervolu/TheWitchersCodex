@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_texture"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".ui.weapons.WeaponsFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/common_min_padding"
+        android:background="@drawable/parchment_title"
+        android:fontFamily="@font/the_witcher"
+        android:gravity="center"
+        android:padding="@dimen/common_min_padding"
+        android:text="@string/weapons"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/loadingLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:shimmer_auto_start="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                layout="@layout/item_character_shimmer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_min_padding"
+                android:layout_marginBottom="@dimen/common_min_padding"
+                android:visibility="visible" />
+
+            <include
+                layout="@layout/item_character_shimmer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/common_min_padding"
+                android:visibility="visible" />
+
+            <include
+                layout="@layout/item_character_shimmer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/common_min_padding"
+                android:visibility="visible" />
+
+            <include
+                layout="@layout/item_character_shimmer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/common_min_padding"
+                android:visibility="visible" />
+
+            <include
+                layout="@layout/item_character_shimmer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/common_min_padding"
+                android:visibility="visible" />
+
+            <include
+                layout="@layout/item_character_shimmer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/common_min_padding"
+                android:visibility="visible" />
+            <include
+                layout="@layout/item_character_shimmer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/common_min_padding"
+                android:visibility="visible" />
+
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rwWeapons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+</LinearLayout>

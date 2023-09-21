@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/common_min_padding"
+    android:layout_marginBottom="?attr/actionBarSize"
+    android:elevation="8dp"
+    android:layout_margin="@dimen/common_min_padding"
+    app:cardBackgroundColor="@color/white"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_min_padding"
+        android:layout_marginTop="@dimen/common_min_padding"
+        android:layout_marginEnd="@dimen/common_min_padding">
+
+        <ImageView
+            android:id="@+id/beastImageView"
+            android:layout_width="88dp"
+            android:layout_height="88dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_min_padding"
+            android:text="@string/ver_detalle"
+            android:textColor="@color/white"
+            app:icon="@drawable/baseline_ads_click_24"
+            app:iconTint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/beastImageView" />
+
+        <TextView
+            android:id="@+id/nameTextView"
+            style="@style/TextAppearance.MaterialComponents.Headline4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/common_min_padding"
+            android:fontFamily="@font/opensans_bold"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="@string/bestiary"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/beastImageView"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/beastDescTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/opensans_regular"
+            android:maxLines="3"
+            android:layout_marginBottom="@dimen/common_min_padding"
+            android:textAppearance="?attr/textAppearanceHeadline5"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@id/beastImageView"
+            app:layout_constraintEnd_toEndOf="@id/nameTextView"
+            app:layout_constraintStart_toStartOf="@id/nameTextView"
+            app:layout_constraintTop_toBottomOf="@id/nameTextView" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
