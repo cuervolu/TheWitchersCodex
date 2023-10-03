@@ -106,5 +106,6 @@ class IntroductionActivity : AppCompatActivity() {
 
     private fun goToDashboard() {
         startActivity(DashboardActivity.create(this))
+        finish()
     }
 }

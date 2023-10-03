@@ -1,8 +1,10 @@
 package com.cuervolu.witcherscodex.data.network
 
+import com.google.firebase.appcheck.FirebaseAppCheck
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -26,4 +28,8 @@ class FirebaseClient @Inject constructor() {
      * real de Firebase.
      */
     val db = Firebase.firestore
+
+    val storage = FirebaseStorage.getInstance()
+
+    val appCheck = FirebaseAppCheck.getInstance()
 }

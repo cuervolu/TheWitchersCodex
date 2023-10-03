@@ -254,6 +254,8 @@ class SignInActivity : AppCompatActivity() {
 
     private fun goToDashboard() {
         startActivity(DashboardActivity.create(this))
+        finishAffinity()
+        return
     }
 
     private fun onFieldChanged(hasFocus: Boolean = false) {

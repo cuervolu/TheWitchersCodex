@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_texture"
+    android:columnCount="3"
     tools:context=".ui.dashboard.GalleryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rwGallery"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-         />
+        android:layout_height="wrap_content"
+        android:layout_columnSpan="3" />
 
-</FrameLayout>
+</GridLayout>

@@ -264,6 +264,8 @@ class LoginActivity : AppCompatActivity() {
 
     private fun goToDashboard() {
         startActivity(DashboardActivity.create(this))
+        finishAffinity()
+        return
     }
 
     private fun goToVerify() {

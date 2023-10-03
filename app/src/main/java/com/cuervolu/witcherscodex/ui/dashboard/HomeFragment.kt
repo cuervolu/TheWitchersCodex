@@ -139,10 +139,6 @@ class HomeFragment : Fragment() {
                 homeViewModel.onCharactersNavigated()
             }
         }
-
-
-
-
         return root
     }
 

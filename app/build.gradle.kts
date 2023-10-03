@@ -1,11 +1,10 @@
 plugins {
-    kotlin("kapt")
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
     id("com.google.dagger.hilt.android")
-
-
+    id("io.gitlab.arturbosch.detekt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -52,15 +51,16 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.2")
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.2")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.3")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.3")
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("com.google.firebase:firebase-appcheck-playintegrity:17.0.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("com.github.bumptech.glide:glide:4.16.0")
-    kapt("com.github.bumptech.glide:compiler:4.16.0")
+    ksp("com.github.bumptech.glide:compiler:4.16.0")
     //Chip Navigation
     implementation("com.github.ismaeldivita:chip-navigation-bar:1.4.0")
     //Spinkit
@@ -84,14 +84,15 @@ dependencies {
     implementation("com.airbnb.android:lottie:6.1.0")
     //Hilt
     implementation("com.google.dagger:hilt-android:2.48")
-    kapt("com.google.dagger:hilt-compiler:2.48")
+    ksp("com.google.dagger:hilt-compiler:2.48")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation ("com.facebook.shimmer:shimmer:0.5.0")
     implementation("androidx.paging:paging-runtime-ktx:3.2.1")
+    implementation("com.google.firebase:firebase-appcheck:17.0.1")
+    implementation("com.google.firebase:firebase-appcheck-safetynet:16.1.2")
+    //ksp
+    implementation("com.google.devtools.ksp:symbol-processing-api:1.9.10-1.0.13")
 
-}
-// Allow references to generated code
-kapt {
-    correctErrorTypes = true
+
 }

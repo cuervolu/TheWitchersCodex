@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@drawable/background_texture"
     tools:context=".ui.dashboard.HomeFragment">
 
 
@@ -203,7 +203,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:layout_toEndOf="@id/featured_background"
-                    android:background="@color/paper" />
+                    android:background="@drawable/background_texture" />
 
             </RelativeLayout>
             <!--Trending card -->
