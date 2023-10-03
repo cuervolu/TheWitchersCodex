@@ -24,11 +24,14 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-    // ViewModel asociado a este fragmento
-    private val homeViewModel: HomeViewModel by viewModels()
+    companion object {
+        fun newInstance() = HomeFragment()
+    }
 
-    private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding!!
+    // ViewModel asociado a este fragmento
+    private val viewModel: HomeViewModel by viewModels()
+
+    private lateinit var binding: FragmentHomeBinding
     private lateinit var articleLoadingIndicator: SpinKitView
     private lateinit var bestiaryLoadingIndicator: SpinKitView
 
@@ -44,35 +47,46 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         // Infla el diseño del fragmento y configura el binding
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root = binding.root
 
+        setupButtons(root)
+        setupLoadingIndicators(root)
+        setupRecyclerViews(root)
+        observeViewModelData()
+
+        return root
+    }
+
+    private fun setupButtons(root: View) {
         val bestiaryButton = root.findViewById<View>(R.id.bestiary_button)
         bestiaryButton.setOnClickListener {
-            homeViewModel.onBestiarySelected()
+            viewModel.onBestiarySelected()
         }
 
         val charactersButton = root.findViewById<View>(R.id.character_button)
         charactersButton.setOnClickListener {
-            homeViewModel.onCharactersSelected()
+            viewModel.onCharactersSelected()
         }
 
         val weaponsButton = root.findViewById<View>(R.id.weapons_button)
         weaponsButton.setOnClickListener {
-            homeViewModel.onWeaponsSelected()
+            viewModel.onWeaponsSelected()
         }
+    }
 
-
+    private fun setupLoadingIndicators(root: View) {
         articleLoadingIndicator = root.findViewById(R.id.articleLoadingIndicator)
         articleLoadingIndicator.visibility = View.VISIBLE
         bestiaryLoadingIndicator = root.findViewById(R.id.bestiaryLoadingIndicator)
         bestiaryLoadingIndicator.visibility = View.VISIBLE
+    }
 
-        //Cargar los RecylerView
+    private fun setupRecyclerViews(root: View) {
         articlesRecyclerView = root.findViewById(R.id.articleRecyclerView)
         articlesRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        articleAdapter = ArticleAdapter(emptyList()) // Inicialmente, el adaptador está vacío
+        articleAdapter = ArticleAdapter(emptyList())
         articlesRecyclerView.adapter = articleAdapter
 
         beastRecyclerView = root.findViewById(R.id.bestiaryRecyclerView)
@@ -80,66 +94,55 @@ class HomeFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         bestiaryFeaturedAdapter = BestiaryFeaturedAdapter(emptyList())
         beastRecyclerView.adapter = bestiaryFeaturedAdapter
+    }
 
+    private fun observeViewModelData() {
+        viewModel.loadFeaturedArticles()
+        viewModel.loadTrendingBeastEntries()
 
-        homeViewModel.loadFeaturedArticles()
-        homeViewModel.loadTrendingBeastEntries()
-
-        homeViewModel.featuredArticles.observe(viewLifecycleOwner) { articles ->
-            // Actualiza el adaptador con la nueva lista de artículos
+        viewModel.featuredArticles.observe(viewLifecycleOwner) { articles ->
             articleAdapter.articles = articles
             articleLoadingIndicator.visibility = View.GONE
-            articleAdapter.notifyDataSetChanged() // Notifica al adaptador que los datos han cambiado
-        }
-        homeViewModel.trendingBeast.observe(viewLifecycleOwner) { entries ->
-            bestiaryFeaturedAdapter.bestiary = entries
-            bestiaryLoadingIndicator.visibility = View.GONE
-            bestiaryFeaturedAdapter.notifyDataSetChanged()
+            articleAdapter.updateList(articles)
         }
 
-        homeViewModel.showErrorDialog.observe(viewLifecycleOwner) { showError ->
+        viewModel.trendingBeast.observe(viewLifecycleOwner) { entries ->
+            bestiaryFeaturedAdapter.bestiary = entries
+            bestiaryLoadingIndicator.visibility = View.GONE
+            bestiaryFeaturedAdapter.updateList(entries)
+        }
+
+        viewModel.showErrorDialog.observe(viewLifecycleOwner) { showError ->
             if (showError) showErrorDialog()
         }
 
-        homeViewModel.navigateToBestiary.observe(viewLifecycleOwner) { navigate ->
+        viewModel.navigateToBestiary.observe(viewLifecycleOwner) { navigate ->
             if (navigate) {
-                // Navega al fragmento del bestiario
-                val fragment = BestiaryFragment()
-                val transaction = requireActivity().supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.fragment_container, fragment)
-                transaction.addToBackStack(null) // Opcional: agrega a la pila de retroceso
-                transaction.commit()
-
-                // Reinicia el estado de navegación
-                homeViewModel.onBestiaryNavigated()
+                replaceFragment(BestiaryFragment())
+                viewModel.onBestiaryNavigated()
             }
         }
 
-        homeViewModel.navigateToWeapon.observe(viewLifecycleOwner) { navigate ->
+        viewModel.navigateToWeapon.observe(viewLifecycleOwner) { navigate ->
             if (navigate) {
-                val fragment = WeaponsFragment()
-                val transaction = requireActivity().supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.fragment_container, fragment)
-                transaction.addToBackStack(null) // Opcional: agrega a la pila de retroceso
-                transaction.commit()
-
-                // Reinicia el estado de navegación
-                homeViewModel.onWeaponsNavigated()
+                replaceFragment(WeaponsFragment())
+                viewModel.onWeaponsNavigated()
             }
         }
 
-        homeViewModel.navigateToCharacters.observe(viewLifecycleOwner) { navigate ->
+        viewModel.navigateToCharacters.observe(viewLifecycleOwner) { navigate ->
             if (navigate) {
-                val fragment = CharactersFragment()
-                val transaction = requireActivity().supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.fragment_container, fragment)
-                transaction.addToBackStack(null)
-                transaction.commit()
-
-                homeViewModel.onCharactersNavigated()
+                replaceFragment(CharactersFragment())
+                viewModel.onCharactersNavigated()
             }
         }
-        return root
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_container, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     private fun showErrorDialog() {
@@ -150,8 +153,4 @@ class HomeFragment : Fragment() {
             }).show(requireActivity().supportFragmentManager, null)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

@@ -3,9 +3,13 @@ package com.cuervolu.witcherscodex.data.network
 
 import android.content.Context
 import com.cuervolu.witcherscodex.data.response.LoginResult
+import com.google.android.gms.auth.GoogleAuthException
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInResult
 import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.delay
@@ -81,7 +85,7 @@ class AuthenticationService @Inject constructor(
             val isGoogleSignIn = checkIfGoogleSignIn(currentUser)
 
             if (isGoogleSignIn) {
-                try {
+                return try {
                     // Cierra la sesión de Firebase
                     firebase.auth.signOut()
 
@@ -89,23 +93,27 @@ class AuthenticationService @Inject constructor(
                     googleSignInClient.client.signOut().await()
 
                     // La sesión de Firebase y Google se cerró con éxito
-                    return true
-                } catch (e: Exception) {
-                    Timber.e(e.localizedMessage)
-                    e.printStackTrace()
-                    return false
+                    true
+                } catch (firebaseAuthException: FirebaseAuthException) {
+                    Timber.e("Error de autenticación Firebase: ${firebaseAuthException.errorCode}")
+                    false
+                } catch (googleSignInException: GoogleAuthException) {
+                    Timber.e("Error de inicio de sesión de Google: ${googleSignInException.message}")
+                    false
                 }
             } else {
-                try {
+                return try {
                     // Si no se autenticó con Google, solo cerramos la sesión de Firebase
                     firebase.auth.signOut()
 
                     // La sesión de Firebase se cerró con éxito
-                    return true
-                } catch (e: Exception) {
-                    Timber.e(e.localizedMessage)
-                    e.printStackTrace()
-                    return false
+                    true
+                } catch (firebaseAuthException: FirebaseAuthException) {
+                    Timber.e("Error de autenticación Firebase: ${firebaseAuthException.errorCode}")
+                    false
+                } catch (googleSignInException: GoogleAuthException) {
+                    Timber.e("Error de inicio de sesión de Google: ${googleSignInException.message}")
+                    false
                 }
             }
         }
@@ -119,7 +127,8 @@ class AuthenticationService @Inject constructor(
             val userDocument = firebase.db.collection("users").document(currentUser.uid)
             return try {
                 userDocument.get().await().exists()
-            } catch (e: Exception) {
+            } catch (e: FirebaseAuthException) {
+                Timber.e("Ha ocurrido un error: ${e.message}")
                 false
             }
         }

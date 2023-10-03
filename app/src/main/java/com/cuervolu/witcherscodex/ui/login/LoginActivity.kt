@@ -25,6 +25,7 @@ import com.cuervolu.witcherscodex.ui.dashboard.DashboardActivity
 import com.cuervolu.witcherscodex.ui.login.model.UserLogin
 import com.cuervolu.witcherscodex.ui.signin.SignInActivity
 import com.cuervolu.witcherscodex.ui.verification.VerificationActivity
+import com.cuervolu.witcherscodex.utils.LoginActivityHelper
 import com.cuervolu.witcherscodex.utils.MusicPlayerManager
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.GoogleAuthProvider
@@ -35,8 +36,7 @@ import javax.inject.Inject
 /**
  * Actividad que permite a los usuarios iniciar sesión en la aplicación.
  *
- * Esta actividad proporciona una interfaz de usuario para que los usuarios ingresen su correo electrónico y contraseña,
- * y realiza el proceso de inicio de sesión utilizando el [LoginViewModel].
+ * Esta actividad proporciona una interfaz de usuario para que los usuarios ingresen su correo electrónico y contraseña,y realiza el proceso de inicio de sesión utilizando el [LoginViewModel].
  * También gestiona la navegación a otras pantallas, como la pantalla de registro o la pantalla de restablecimiento de contraseña.
  *
  * @property binding Referencia a la vista de diseño de la actividad.
@@ -46,6 +46,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
     private val REQ_ONE_TAP = 2
+
     companion object {
         fun create(context: Context): Intent =
             Intent(context, LoginActivity::class.java)
@@ -53,7 +54,9 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityLoginBinding
+
     private val loginViewModel: LoginViewModel by viewModels()
+    private lateinit var loginHelper: LoginActivityHelper
 
     @Inject
     lateinit var dialogLauncher: DialogFragmentLauncher
@@ -68,54 +71,19 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        loginHelper = LoginActivityHelper(loginViewModel, googleClient, firebaseClient)
         initUI()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
-            REQ_ONE_TAP -> {
-                if (resultCode == RESULT_OK) {
-                    try {
-                        val credential =
-                            googleClient.oneTapClient.getSignInCredentialFromIntent(data)
-                        val idToken = credential.googleIdToken
-                        when {
-                            idToken != null -> {
-                                // Got an ID token from Google. Use it to authenticate
-                                // with Firebase.
-                                val firebaseCredential =
-                                    GoogleAuthProvider.getCredential(idToken, null)
-                                firebaseClient.auth.signInWithCredential(firebaseCredential)
-                                    .addOnCompleteListener(this) { task ->
-                                        if (task.isSuccessful) {
-                                            // Sign in success, update UI with the signed-in user's information
-                                            Timber.d("signInWithCredential:success")
-                                            val user = firebaseClient.auth.currentUser
-                                            loginViewModel.saveUserDataToFirestore(user)
-                                            goToDashboard()
-                                        } else {
-                                            // If sign in fails, display a message to the user.
-                                            Timber.w(
-                                                "signInWithCredential:failure ${task.exception}",
-
-                                                )
-                                        }
-                                    }
-
-                            }
-                        }
-                    } catch (e: ApiException) {
-                        Timber.e("An error occurred: ${e.message}")
-                    }
-                } else {
-                    // Autenticación fallida, maneja el caso de error
-                    Timber.d("Authentication failed with result code: $resultCode")
-                }
-            }
+            REQ_ONE_TAP -> loginHelper.handleOneTapResult(resultCode, data, this)
         }
     }
+
 
     private fun initUI() {
         initListeners()
@@ -127,26 +95,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initListeners() {
-        binding.etEmail.loseFocusAfterAction(EditorInfo.IME_ACTION_NEXT)
-        binding.etEmail.onTextChanged { onFieldChanged() }
-
-        binding.etPassword.loseFocusAfterAction(EditorInfo.IME_ACTION_DONE)
-        binding.etPassword.setOnFocusChangeListener { _, hasFocus -> onFieldChanged(hasFocus) }
-        binding.etPassword.onTextChanged { onFieldChanged() }
-
-        binding.tvForgotPassword.setOnClickListener { loginViewModel.onForgotPasswordSelected() }
-
-        binding.viewBottom.tvFooter.setOnClickListener { loginViewModel.onSignInSelected() }
-
-        binding.btnLogin.setOnClickListener {
-            it.dismissKeyboard()
-            loginViewModel.onLoginSelected(
-                binding.etEmail.text.toString(),
-                binding.etPassword.text.toString()
-            )
-        }
-
-
         binding.viewBottom.btnGoogle.setOnClickListener {
             // Utiliza el cliente de Google para iniciar la autenticación con One Tap UI
             googleClient.oneTapClient.beginSignIn(googleClient.signUpRequest)
@@ -165,18 +113,48 @@ class LoginActivity : AppCompatActivity() {
                     Timber.d(e.localizedMessage)
                 }
         }
+        binding.etEmail.onTextChanged { text ->
+            loginHelper.onFieldChanged(
+                text,
+                binding.etPassword.text.toString()
+            )
+        }
+        binding.etPassword.onTextChanged { text ->
+            loginHelper.onFieldChanged(
+                binding.etEmail.text.toString(),
+                text
+            )
+        }
+        binding.etEmail.loseFocusAfterAction(EditorInfo.IME_ACTION_NEXT)
+        binding.etEmail.onTextChanged { onFieldChanged() }
+
+        binding.etPassword.loseFocusAfterAction(EditorInfo.IME_ACTION_DONE)
+        binding.etPassword.setOnFocusChangeListener { _, hasFocus -> onFieldChanged(hasFocus) }
+        binding.etPassword.onTextChanged { onFieldChanged() }
+
+        binding.tvForgotPassword.setOnClickListener { loginViewModel.onForgotPasswordSelected() }
+
+        binding.viewBottom.tvFooter.setOnClickListener { loginViewModel.onSignInSelected() }
+
+        binding.btnLogin.setOnClickListener {
+            it.dismissKeyboard()
+            loginViewModel.onLoginSelected(
+                binding.etEmail.text.toString(),
+                binding.etPassword.text.toString()
+            )
+        }
     }
 
     private fun initObservers() {
         loginViewModel.navigateToDetails.observe(this) {
             it.getContentIfNotHandled()?.let {
-                goToDashboard()
+                loginHelper.goToDashboard(this)
             }
         }
 
         loginViewModel.navigateToSignIn.observe(this) {
             it.getContentIfNotHandled()?.let {
-                goToSignIn()
+                loginHelper.goToSignIn(this@LoginActivity)
             }
         }
 
@@ -188,7 +166,7 @@ class LoginActivity : AppCompatActivity() {
 
         loginViewModel.navigateToVerifyAccount.observe(this) {
             it.getContentIfNotHandled()?.let {
-                goToVerify()
+                loginHelper.goToVerify(this@LoginActivity)
             }
         }
 
@@ -198,18 +176,8 @@ class LoginActivity : AppCompatActivity() {
 
         lifecycleScope.launchWhenStarted {
             loginViewModel.viewState.collect { viewState ->
-                updateUI(viewState)
+                loginHelper.updateUI(this@LoginActivity, viewState, binding)
             }
-        }
-    }
-
-    private fun updateUI(viewState: LoginViewState) {
-        with(binding) {
-            pbLoading.isVisible = viewState.isLoading
-            tilEmail.error =
-                if (viewState.isValidEmail) null else getString(R.string.login_error_mail)
-            tilPassword.error =
-                if (viewState.isValidPassword) null else getString(R.string.login_error_password)
         }
     }
 
@@ -252,23 +220,8 @@ class LoginActivity : AppCompatActivity() {
         // Pausa la reproducción de música
         MusicPlayerManager.pausePlaying()
     }
-
-
     private fun goToForgotPassword() {
         toast(getString(R.string.feature_not_allowed))
     }
 
-    private fun goToSignIn() {
-        startActivity(SignInActivity.create(this))
-    }
-
-    private fun goToDashboard() {
-        startActivity(DashboardActivity.create(this))
-        finishAffinity()
-        return
-    }
-
-    private fun goToVerify() {
-        startActivity(VerificationActivity.create(this))
-    }
 }

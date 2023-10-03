@@ -98,18 +98,9 @@ class HomeViewModel @Inject constructor(
     }
 
 
-    fun loadTrendingArticles() {
-        // Carga los datos de tendencia y actualiza _trendingArticles.
-    }
-
     // Método para indicar que se ha seleccionado el fragmento de inicio
     fun onHomeSelected() {
         _navigateToHome.value = true
-    }
-
-    // Método para indicar que la navegación ha sido manejada
-    fun onHomeNavigated() {
-        _navigateToHome.value = false
     }
 
 

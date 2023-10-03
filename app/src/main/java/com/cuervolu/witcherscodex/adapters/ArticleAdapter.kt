@@ -5,11 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.cuervolu.witcherscodex.R
 import com.cuervolu.witcherscodex.domain.models.Article
+import com.cuervolu.witcherscodex.domain.models.Bestiary
+import com.cuervolu.witcherscodex.domain.models.Weapon
+import com.cuervolu.witcherscodex.ui.dashboard.diffutils.ArticleDiffUtil
+import com.cuervolu.witcherscodex.ui.weapons.WeaponsDiffUtil
 
 class ArticleAdapter(var articles: List<Article>) :
     RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>() {
@@ -19,6 +24,13 @@ class ArticleAdapter(var articles: List<Article>) :
         val titleTextView: TextView = itemView.findViewById(R.id.txtCharacterName)
         val descriptionTextView: TextView = itemView.findViewById(R.id.txtCharacterDesc)
         val articleImageView: ImageView = itemView.findViewById(R.id.ivCharacter)
+    }
+
+    fun updateList(newList: List<Article>) {
+        val articleDiff = ArticleDiffUtil(articles, newList)
+        val result = DiffUtil.calculateDiff(articleDiff)
+        articles = newList
+        result.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
@@ -43,5 +55,15 @@ class ArticleAdapter(var articles: List<Article>) :
     override fun getItemCount(): Int {
         // Devuelve el número total de elementos en la lista
         return articles.size
+    }
+
+    companion object : DiffUtil.ItemCallback<Article>() {
+        override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
+            return oldItem.title == newItem.title
+        }
+
+        override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
+            return oldItem == newItem
+        }
     }
 }

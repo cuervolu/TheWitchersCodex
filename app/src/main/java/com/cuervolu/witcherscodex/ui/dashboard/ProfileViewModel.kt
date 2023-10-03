@@ -8,6 +8,7 @@ import com.cuervolu.witcherscodex.core.Event
 import com.cuervolu.witcherscodex.data.network.AuthenticationService
 import com.cuervolu.witcherscodex.data.network.UserService
 import com.cuervolu.witcherscodex.domain.models.User
+import com.google.firebase.auth.FirebaseAuthException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -87,7 +88,7 @@ class ProfileViewModel @Inject constructor(
             } else {
                 _showErrorDialog.value = Pair("No se ha podido cerrar sesión", "Inténtalo más tarde")
             }
-        } catch (e: Exception) {
+        } catch (e: FirebaseAuthException) {
             _showErrorDialog.value = Pair("No se ha podido cerrar sesión", "${e.localizedMessage}")
         }
     }

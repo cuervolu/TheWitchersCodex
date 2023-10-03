@@ -1,6 +1,7 @@
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.cuervolu.witcherscodex.domain.models.Bestiary
+import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +29,7 @@ class BestiaryPagingSource(
                 nextKey = nextPage
             )
 
-        } catch (e: Exception) {
+        } catch (e: FirebaseFirestoreException) {
             LoadResult.Error(e)
         }
     }

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.cuervolu.witcherscodex.R
-import com.cuervolu.witcherscodex.ui.dashboard.GalleryDiffUtil
+import com.cuervolu.witcherscodex.ui.dashboard.diffutils.GalleryDiffUtil
 
 class GalleryAdapter(var imageUrls: List<String>, private val onClickListener: (String) -> Unit):  RecyclerView.Adapter<GalleryViewHolder>()  {
     fun updateList(newList: List<String>) {

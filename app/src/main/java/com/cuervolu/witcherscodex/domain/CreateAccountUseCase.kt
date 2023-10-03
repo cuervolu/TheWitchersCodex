@@ -4,6 +4,8 @@ import com.cuervolu.witcherscodex.data.network.AuthenticationService
 import com.cuervolu.witcherscodex.data.network.FirebaseClient
 import com.cuervolu.witcherscodex.data.network.UserService
 import com.cuervolu.witcherscodex.ui.signin.model.UserSignIn
+import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.firestore.FirebaseFirestoreException
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -50,8 +52,11 @@ class CreateAccountUseCase @Inject constructor(
                 // La creación de la cuenta falló
                 false
             }
-        } catch (e: Exception) {
-            Timber.e("${e.localizedMessage}")
+        } catch (e: FirebaseAuthException) {
+            Timber.e(e.localizedMessage)
+            return false
+        }catch (e: FirebaseFirestoreException) {
+            Timber.e(e.localizedMessage)
             return false
         }
     }

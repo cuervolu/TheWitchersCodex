@@ -1,4 +1,4 @@
-package com.cuervolu.witcherscodex.ui.dashboard
+package com.cuervolu.witcherscodex.ui.dashboard.diffutils
 
 import androidx.recyclerview.widget.DiffUtil
 import com.cuervolu.witcherscodex.domain.models.Character

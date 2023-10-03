@@ -90,47 +90,50 @@ class SignInActivity : AppCompatActivity() {
 
         when (requestCode) {
             REQ_ONE_TAP -> {
-                if (resultCode == RESULT_OK) {
-                    try {
-                        val credential =
-                            googleClient.oneTapClient.getSignInCredentialFromIntent(data)
-                        val idToken = credential.googleIdToken
-                        when {
-                            idToken != null -> {
-                                // Got an ID token from Google. Use it to authenticate
-                                // with Firebase.
-                                val firebaseCredential =
-                                    GoogleAuthProvider.getCredential(idToken, null)
-                                firebaseClient.auth.signInWithCredential(firebaseCredential)
-                                    .addOnCompleteListener(this) { task ->
-                                        if (task.isSuccessful) {
-                                            // Sign in success, update UI with the signed-in user's information
-                                            Timber.d("signInWithCredential:success")
-                                            val user = firebaseClient.auth.currentUser
-                                            signInViewModel.saveUserDataToFirestore(user)
-                                            goToDashboard()
-                                        } else {
-                                            // If sign in fails, display a message to the user.
-                                            Timber.w(
-                                                "signInWithCredential:failure ${task.exception}",
-
-                                                )
-                                        }
-                                    }
-
-                            }
-                        }
-                    } catch (e: ApiException) {
-                        Timber.e("An error occurred: ${e.message}")
-                    }
-                } else {
-                    // Autenticación fallida, maneja el caso de error
-                    Timber.d("Authentication failed with result code: $resultCode")
-                }
+                oneTapSignIn(resultCode,data)
             }
         }
     }
 
+    private fun oneTapSignIn(resultCode: Int, data: Intent?) {
+        if (resultCode == RESULT_OK) {
+            try {
+                val credential =
+                    googleClient.oneTapClient.getSignInCredentialFromIntent(data)
+                val idToken = credential.googleIdToken
+                when {
+                    idToken != null -> {
+                        // Got an ID token from Google. Use it to authenticate
+                        // with Firebase.
+                        val firebaseCredential =
+                            GoogleAuthProvider.getCredential(idToken, null)
+                        firebaseClient.auth.signInWithCredential(firebaseCredential)
+                            .addOnCompleteListener(this) { task ->
+                                if (task.isSuccessful) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Timber.d("signInWithCredential:success")
+                                    val user = firebaseClient.auth.currentUser
+                                    signInViewModel.saveUserDataToFirestore(user)
+                                    goToDashboard()
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Timber.w(
+                                        "signInWithCredential:failure ${task.exception}",
+
+                                        )
+                                }
+                            }
+
+                    }
+                }
+            } catch (e: ApiException) {
+                Timber.e("An error occurred: ${e.message}")
+            }
+        } else {
+            // Autenticación fallida, maneja el caso de error
+            Timber.d("Authentication failed with result code: $resultCode")
+        }
+    }
 
     private fun initUI() {
         initListeners()

@@ -1,6 +1,7 @@
 package com.cuervolu.witcherscodex.ui.dashboard
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,15 +17,18 @@ import com.cuervolu.witcherscodex.core.dialog.ConfirmationDialog
 import com.cuervolu.witcherscodex.core.dialog.DialogFragmentLauncher
 import com.cuervolu.witcherscodex.core.dialog.ErrorDialog
 import com.cuervolu.witcherscodex.databinding.FragmentProfileBinding
+import com.cuervolu.witcherscodex.domain.models.User
 import com.cuervolu.witcherscodex.ui.login.LoginActivity
+import com.cuervolu.witcherscodex.ui.login.common.UserData
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 interface LogoutListener {
     fun onLogout()
 }
-
 
 /**
  * Fragmento que representa el perfil del usuario en la aplicación.
@@ -39,6 +43,11 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var logoutListener: LogoutListener
 
+    private lateinit var sharedPreferences: SharedPreferences
+
+    companion object {
+        private const val PROFILE_CACHE_KEY = "profile_data"
+    }
 
     // Inyector para mostrar diálogos
     @Inject
@@ -55,16 +64,21 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root = binding.root
 
-        // Observa los datos del usuario para actualizar la interfaz
-        profileViewModel.userData.observe(viewLifecycleOwner) { userData ->
-            // Actualiza las vistas con los datos del usuario
-            binding.displayName.text = userData.realname
-            binding.givenNameTextInput.editText?.setText(userData.realname)
-            binding.usernameTextInput.editText?.setText(userData.nickname)
-            loadProfileImage(userData?.imageUrl)
+        sharedPreferences =
+            requireContext().getSharedPreferences(PROFILE_CACHE_KEY, Context.MODE_PRIVATE)
+
+        val cachedProfileData = loadProfileDataFromCache()
+        if (cachedProfileData != null) {
+            setUserData(cachedProfileData)
+        } else {
+            profileViewModel.userData.observe(viewLifecycleOwner) { userData ->
+                setUserData(userData)
+                saveProfileDataToCache(userData)
+            }
         }
-        // Llama a la función para obtener los datos del usuario
-        profileViewModel.getUserData()
+        if (cachedProfileData == null) {
+            profileViewModel.getUserData()
+        }
 
         // Inicializa la interfaz de usuario
         initUI()
@@ -76,10 +90,30 @@ class ProfileFragment : Fragment() {
         if (context is LogoutListener) {
             logoutListener = context
         } else {
-            throw RuntimeException("$context must implement LogoutListener")
+            throw ClassCastException("$context must implement LogoutListener")
         }
     }
 
+    private fun loadProfileDataFromCache(): User? {
+        val cachedDataString = sharedPreferences.getString(PROFILE_CACHE_KEY, null)
+        return if (cachedDataString != null) {
+            try {
+                val cachedData = Gson().fromJson(cachedDataString, User::class.java)
+                cachedData
+            } catch (e: Exception) {
+                null
+            }
+        } else {
+            null
+        }
+    }
+
+    private fun setUserData(userData: User) {
+        binding.displayName.text = userData.realname
+        binding.givenNameTextInput.editText?.setText(userData.realname)
+        binding.usernameTextInput.editText?.setText(userData.nickname)
+        loadProfileImage(userData.imageUrl)
+    }
 
     /**
      * Inicializa la interfaz de usuario.
@@ -93,8 +127,24 @@ class ProfileFragment : Fragment() {
      * Inicializa los listeners de los elementos de la interfaz de usuario.
      */
     private fun initListeners() {
-        binding.btnLogOut.setOnClickListener { profileViewModel.onLogoutConfirmationDialogShown(true) }
+        binding.btnLogOut.setOnClickListener {
+            profileViewModel.onLogoutConfirmationDialogShown(
+                true
+            )
+        }
     }
+
+    private fun saveProfileDataToCache(userData: User?) {
+        val sharedPreferences =
+            requireContext().getSharedPreferences("profile_data", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+
+        val userDataJson = Gson().toJson(userData)
+
+        editor.putString(PROFILE_CACHE_KEY, userDataJson)
+        editor.apply()
+    }
+
 
     /**
      * Inicializa los observadores para los cambios en el ViewModel.
@@ -209,5 +259,4 @@ class ProfileFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

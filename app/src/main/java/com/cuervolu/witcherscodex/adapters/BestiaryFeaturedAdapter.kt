@@ -5,9 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.cuervolu.witcherscodex.R
 import com.cuervolu.witcherscodex.domain.models.Bestiary
+import com.cuervolu.witcherscodex.domain.models.Weapon
+import com.cuervolu.witcherscodex.ui.dashboard.diffutils.FeaturedBestiaryDiffUtil
+import com.cuervolu.witcherscodex.ui.weapons.WeaponsDiffUtil
 import com.cuervolu.witcherscodex.utils.GlideImageLoader
 
 class BestiaryFeaturedAdapter(var bestiary: List<Bestiary>) :
@@ -17,6 +21,13 @@ class BestiaryFeaturedAdapter(var bestiary: List<Bestiary>) :
         val nameTextView: TextView = itemView.findViewById(R.id.nameTextView)
         val beastImageView: ImageView = itemView.findViewById(R.id.beastImageView)
 
+    }
+
+    fun updateList(newList: List<Bestiary>) {
+        val bestiaryDiff = FeaturedBestiaryDiffUtil(bestiary, newList)
+        val result = DiffUtil.calculateDiff(bestiaryDiff)
+        bestiary = newList
+        result.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(
@@ -40,9 +51,6 @@ class BestiaryFeaturedAdapter(var bestiary: List<Bestiary>) :
     }
 
 
-    override fun getItemCount(): Int {
-        // Devuelve el número total de elementos en la lista
-        return bestiary.size
-    }
+    override fun getItemCount(): Int = bestiary.size
 
 }
