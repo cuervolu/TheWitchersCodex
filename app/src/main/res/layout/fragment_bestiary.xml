@@ -26,6 +26,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <include
+        android:id="@+id/search_bar"
+        layout="@layout/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
+
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/loadingLayout"
         android:layout_width="0dp"
@@ -34,7 +44,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleTextView"
+        app:layout_constraintTop_toBottomOf="@+id/search_bar"
         app:shimmer_auto_start="true">
 
         <LinearLayout
@@ -155,14 +165,14 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="64dp"
+        android:contentDescription="@string/add_monster"
         android:src="@drawable/ic_add"
         app:backgroundTint="@color/accent"
         app:elevation="6dp"
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:rippleColor="@color/accent_dark"
-        android:contentDescription="@string/add_monster"/>
+        app:rippleColor="@color/accent_dark" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
