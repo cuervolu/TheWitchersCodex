@@ -14,6 +14,10 @@ import javax.inject.Singleton
  * @property auth Instancia de [FirebaseAuth] para gestionar la autenticación de usuarios.
  * @property db Instancia de Firestore [FirebaseFirestore] para interactuar con la base de datos en
  * tiempo real de Firebase.
+ * @property storage Instancia de [FirebaseStorage] para interactuar con el servicio de almacenamiento
+ * de Firebase.
+ * @property appCheck Instancia de [FirebaseAppCheck] para interactuar con el servicio de seguridad
+ * de Firebase.
  */
 @Singleton
 class FirebaseClient @Inject constructor() {

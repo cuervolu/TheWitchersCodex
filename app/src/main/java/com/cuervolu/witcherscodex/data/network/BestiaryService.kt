@@ -1,11 +1,11 @@
 package com.cuervolu.witcherscodex.data.network
 
+import android.net.Uri
 import com.cuervolu.witcherscodex.domain.models.Bestiary
-import com.cuervolu.witcherscodex.domain.models.Character
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.ktx.toObject
 import timber.log.Timber
+
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,8 +15,37 @@ class BestiaryService @Inject constructor(
 ) {
 
     // Método para crear una nueva entrada del bestiario
-    fun createBestiaryEntry(entry: Bestiary) {
-        // Aquí puedes implementar la lógica para agregar el Bestiary a la fuente de datos
+    fun createBestiaryEntry(
+        entry: Bestiary,
+        imageUri: Uri,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    ) {
+        // Agrega la entrada del bestiario a Firestore
+        firebase.db.collection("bestiary")
+            .add(entry)
+            .addOnSuccessListener { documentReference ->
+                // La entrada se ha creado con éxito en Firestore.
+                val entryId = documentReference.id // Obtiene el ID de la entrada recién creada.
+
+                // Llama a la función uploadBestiaryImage para subir la imagen y manejar el éxito o el error.
+                uploadBestiaryImage(
+                    entryId,
+                    imageUri,
+                    onSuccess = {
+                        Timber.d("La imagen se ha subido con éxito.")
+                        onSuccess()
+                    },
+                    onError = {
+                        Timber.e("Ha ocurrido un error al subir la imagen.")
+                        onError()
+                    }
+                )
+            }
+            .addOnFailureListener { exception ->
+                Timber.e("Ha ocurrido un error al crear la entrada del bestiario: $exception")
+                onError()
+            }
     }
 
     fun getBestiaryEntries(
@@ -60,7 +89,10 @@ class BestiaryService @Inject constructor(
             }
     }
 
-    fun getLastFiveBestiaryEntries(onSuccess: (List<Bestiary>) -> Unit, onError: (String) -> Unit) {
+    fun getLastFiveBestiaryEntries(
+        onSuccess: (List<Bestiary>) -> Unit,
+        onError: (String) -> Unit
+    ) {
         // Accede a la colección "bestiary" en Firebase Firestore
         val query = firebase.db.collection("bestiary")
             .orderBy(
@@ -103,5 +135,24 @@ class BestiaryService @Inject constructor(
     // Método para eliminar una bestia por su ID
     fun deleteBestiaryEntry(entryId: String) {
         // Aquí puedes implementar la lógica para eliminar una bestia por su ID
+    }
+
+    private fun uploadBestiaryImage(
+        entryId: String,
+        imageUri: Uri,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    ) {
+        val storageRef = firebase.storage.reference.child("/images/bestiary/$entryId")
+        // Sube la imagen a Firebase Storage
+        storageRef.putFile(imageUri)
+            .addOnSuccessListener { _ ->
+                // La imagen se ha subido con éxito. Llama a la función onSuccess.
+                onSuccess()
+            }
+            .addOnFailureListener { exception ->
+                // Ocurrió un error al subir la imagen. Llama a la función onError.
+                onError()
+            }
     }
 }

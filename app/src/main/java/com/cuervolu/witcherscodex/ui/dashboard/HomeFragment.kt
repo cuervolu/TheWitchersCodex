@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cuervolu.witcherscodex.R
 import com.cuervolu.witcherscodex.adapters.ArticleAdapter
 import com.cuervolu.witcherscodex.adapters.BestiaryFeaturedAdapter
+import com.cuervolu.witcherscodex.adapters.StreamAdapter
 import com.cuervolu.witcherscodex.core.dialog.DialogFragmentLauncher
 import com.cuervolu.witcherscodex.core.dialog.ErrorDialog
+import com.cuervolu.witcherscodex.data.response.Datum
 import com.cuervolu.witcherscodex.databinding.FragmentHomeBinding
 import com.cuervolu.witcherscodex.ui.bestiary.BestiaryFragment
 import com.cuervolu.witcherscodex.ui.characters.CharactersFragment
@@ -39,8 +41,10 @@ class HomeFragment : Fragment() {
     @Inject
     lateinit var dialogLauncher: DialogFragmentLauncher
     private lateinit var articlesRecyclerView: RecyclerView
+    private lateinit var streamsRecyclerView: RecyclerView
     private lateinit var beastRecyclerView: RecyclerView
     private lateinit var articleAdapter: ArticleAdapter
+    private lateinit var streamAdapter: StreamAdapter
     private lateinit var bestiaryFeaturedAdapter: BestiaryFeaturedAdapter
 
     override fun onCreateView(
@@ -82,7 +86,15 @@ class HomeFragment : Fragment() {
         bestiaryLoadingIndicator.visibility = View.VISIBLE
     }
 
+
     private fun setupRecyclerViews(root: View) {
+        streamsRecyclerView = root.findViewById(R.id.streamsRecyclerView)
+        streamsRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        streamAdapter =
+            StreamAdapter(emptyList()) { stream -> onItemSelected(stream) }
+        streamsRecyclerView.adapter = streamAdapter
+
         articlesRecyclerView = root.findViewById(R.id.articleRecyclerView)
         articlesRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -96,14 +108,24 @@ class HomeFragment : Fragment() {
         beastRecyclerView.adapter = bestiaryFeaturedAdapter
     }
 
+    private fun onItemSelected(stream: Datum) {
+        TODO("Not yet implemented")
+    }
+
     private fun observeViewModelData() {
         viewModel.loadFeaturedArticles()
         viewModel.loadTrendingBeastEntries()
+        viewModel.searchStreamsByName("streams?game_id=115977&language=en")
 
         viewModel.featuredArticles.observe(viewLifecycleOwner) { articles ->
             articleAdapter.articles = articles
             articleLoadingIndicator.visibility = View.GONE
             articleAdapter.updateList(articles)
+        }
+
+        viewModel.streams.observe(viewLifecycleOwner) { streams ->
+            streamAdapter.streamsList = streams
+            streamAdapter.notifyDataSetChanged()
         }
 
         viewModel.trendingBeast.observe(viewLifecycleOwner) { entries ->

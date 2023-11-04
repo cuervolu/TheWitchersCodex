@@ -19,11 +19,9 @@ import com.cuervolu.witcherscodex.core.dialog.ErrorDialog
 import com.cuervolu.witcherscodex.databinding.FragmentProfileBinding
 import com.cuervolu.witcherscodex.domain.models.User
 import com.cuervolu.witcherscodex.ui.login.LoginActivity
-import com.cuervolu.witcherscodex.ui.login.common.UserData
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 interface LogoutListener {

@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import androidx.fragment.app.commit
 import com.cuervolu.witcherscodex.R
 import com.cuervolu.witcherscodex.data.network.AuthenticationService
 import com.cuervolu.witcherscodex.ui.login.LoginActivity
@@ -16,13 +16,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DashboardActivity : AppCompatActivity(),  LogoutListener {
+class DashboardActivity : AppCompatActivity(), LogoutListener {
 
     companion object {
         fun create(context: Context): Intent =
             Intent(context, DashboardActivity::class.java)
 
     }
+
     @Inject
     lateinit var authService: AuthenticationService
 
@@ -46,14 +47,19 @@ class DashboardActivity : AppCompatActivity(),  LogoutListener {
             return
         }
 
+        supportFragmentManager.commit(allowStateLoss = true) {
+            setReorderingAllowed(true)
+            add(R.id.fragment_container, HomeFragment())
+        }
+
         // Inicializa la barra de navegación
         chipNavigationBar = findViewById(R.id.bottom_nav_menu)
 
         // Establece el elemento seleccionado por defecto
         chipNavigationBar.setItemSelected(R.id.navigation_dashboard, isSelected = true)
         // Reemplaza el contenedor de fragmentos con el fragmento de Dashboard
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, HomeFragment()).commit()
+//        supportFragmentManager.beginTransaction()
+//            .replace(R.id.fragment_container, HomeFragment()).commit()
 
         // Configura la barra de navegación inferior
         bottomMenu()
@@ -63,41 +69,25 @@ class DashboardActivity : AppCompatActivity(),  LogoutListener {
      * Configura la barra de navegación inferior y maneja la selección de elementos.
      */
     private fun bottomMenu() {
+
+        val navigationItems = listOf(
+            R.id.navigation_dashboard to HomeFragment(),
+            R.id.navigation_gallery to GalleryFragment(),
+            R.id.navigation_profile to ProfileFragment()
+        )
+
         chipNavigationBar.setOnItemSelectedListener { itemId ->
-            when (itemId) {
-                R.id.navigation_dashboard -> {
-                    // Observa LiveData en el ViewModel de Dashboard
-                    homeViewModel.navigateToHome.observe(this, Observer {
-                        // Maneja la navegación a través del ViewModel
-                        navigateToFragment(HomeFragment())
-                    })
-                    // Dispara el evento en el ViewModel para la navegación
-                    homeViewModel.onHomeSelected()
-                }
-
-                R.id.navigation_gallery -> {
-                    galleryViewModel.navigateToGallery.observe(this, Observer {
-                        navigateToFragment(GalleryFragment())
-                    })
-                    galleryViewModel.onGallerySelected()
-                }
-
-                R.id.navigation_profile -> {
-                    userProfileViewModel.navigateToProfile.observe(this, Observer {
-                        navigateToFragment(ProfileFragment())
-                    })
-                    userProfileViewModel.onProfileSelected()
-                }
-            }
+            val fragmentClass = navigationItems.firstOrNull { it.first == itemId }?.second
+            fragmentClass?.let { navigateToFragment(it) }
         }
     }
 
     /**
      * Reemplaza el fragmento actual con el fragmento seleccionado.
      */
-    private fun navigateToFragment(fragment: Fragment) {
+    private fun navigateToFragment(fragmentClass: Fragment) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
+            .replace(R.id.fragment_container, fragmentClass)
             .commit()
     }
 

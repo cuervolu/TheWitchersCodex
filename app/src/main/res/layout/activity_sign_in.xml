@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_dark"
+    android:background="@color/primary"
     tools:context=".ui.signin.SignInActivity">
 
     <include
@@ -53,8 +53,8 @@
                     android:hint="@string/signin_form_nickname"
                     android:imeOptions="actionNext"
                     android:inputType="text"
-                    android:textColorHighlight="@color/error_dark"
-                    android:textColorHint="@color/error_dark" />
+                    android:textColorHighlight="@color/error"
+                    android:textColorHint="@color/error" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -77,8 +77,8 @@
                     android:hint="@string/signin_form_real_name"
                     android:imeOptions="actionNext"
                     android:inputType="text"
-                    android:textColorHighlight="@color/error_dark"
-                    android:textColorHint="@color/error_dark" />
+                    android:textColorHighlight="@color/error"
+                    android:textColorHint="@color/error" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -101,8 +101,8 @@
                     android:hint="@string/signin_form_email"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
-                    android:textColorHighlight="@color/error_dark"
-                    android:textColorHint="@color/error_dark" />
+                    android:textColorHighlight="@color/error"
+                    android:textColorHint="@color/error" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -125,8 +125,8 @@
                     android:hint="@string/signin_form_password"
                     android:imeOptions="actionNext"
                     android:inputType="textPassword"
-                    android:textColorHighlight="@color/error_dark"
-                    android:textColorHint="@color/error_dark" />
+                    android:textColorHighlight="@color/error"
+                    android:textColorHint="@color/error" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -150,8 +150,8 @@
                     android:hint="@string/signin_form_repeat_password"
                     android:imeOptions="actionDone"
                     android:inputType="textPassword"
-                    android:textColorHighlight="@color/error_dark"
-                    android:textColorHint="@color/error_dark" />
+                    android:textColorHighlight="@color/error"
+                    android:textColorHint="@color/error" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

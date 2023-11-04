@@ -1,9 +1,8 @@
 package com.cuervolu.witcherscodex.data.network
 
-import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
-import com.google.firebase.appcheck.safetynet.SafetyNetAppCheckProviderFactory
 import com.google.firebase.storage.StorageReference
 import timber.log.Timber
+
 import javax.inject.Inject
 import javax.inject.Singleton
 

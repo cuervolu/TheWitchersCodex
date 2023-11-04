@@ -4,6 +4,7 @@ import com.cuervolu.witcherscodex.domain.models.User
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
+
 import javax.inject.Inject
 
 /**

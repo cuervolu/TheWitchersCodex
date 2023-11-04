@@ -17,6 +17,7 @@ import com.cuervolu.witcherscodex.ui.verification.VerificationActivity
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.GoogleAuthProvider
 import timber.log.Timber
+
 import javax.inject.Inject
 
 class LoginActivityHelper @Inject constructor(

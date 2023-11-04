@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/opensans_bold"
-            android:textColor="@color/white"
+            android:textColor="@color/secondary"
             android:textSize="20sp" />
 
     </FrameLayout>

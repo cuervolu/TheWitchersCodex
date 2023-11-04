@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_texture"
+    android:background="@color/primary"
     android:columnCount="3"
     tools:context=".ui.dashboard.GalleryFragment">
 

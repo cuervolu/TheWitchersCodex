@@ -6,9 +6,9 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.appcheck.FirebaseAppCheck
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
 import dagger.hilt.android.HiltAndroidApp
-import io.grpc.android.BuildConfig
 import timber.log.Timber
 import timber.log.Timber.DebugTree
+
 
 /**
  * Clase de aplicación principal de WitcherCodex.
@@ -38,7 +38,10 @@ class WitcherCodexApp : Application() {
     }
 
     private fun initializeTimber() {
-        Timber.plant(DebugTree())
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(DebugTree())
+        }
     }
 
 }

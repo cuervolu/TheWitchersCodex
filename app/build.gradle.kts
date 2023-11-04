@@ -22,20 +22,33 @@ android {
     }
 
     buildTypes {
+        debug {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            signingConfig = signingConfigs.getByName("debug")
+            isDebuggable = true
+            buildConfigField("String", "CLIENT_ID", "\"${System.getenv("TWITCH_CLIENT_ID")}\"")
+            buildConfigField("String", "Authorization", "\"${System.getenv("TWITCH_AUTHORIZATION")}\"")
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "CLIENT_ID", "\"${System.getenv("TWITCH_CLIENT_ID")}\"")
+            buildConfigField("String", "Authorization", "\"${System.getenv("TWITCH_AUTHORIZATION")}\"")
         }
-        debug {}
+
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
     }
     kotlinOptions {
@@ -44,7 +57,7 @@ android {
 }
 
 dependencies {
-    implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
@@ -56,6 +69,7 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("com.google.firebase:firebase-appcheck-playintegrity:17.0.1")
+    implementation("androidx.fragment:fragment-ktx:1.6.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -87,12 +101,19 @@ dependencies {
     ksp("com.google.dagger:hilt-compiler:2.48")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    implementation ("com.facebook.shimmer:shimmer:0.5.0")
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
     implementation("androidx.paging:paging-runtime-ktx:3.2.1")
     implementation("com.google.firebase:firebase-appcheck:17.0.1")
     implementation("com.google.firebase:firebase-appcheck-safetynet:16.1.2")
     //ksp
     implementation("com.google.devtools.ksp:symbol-processing-api:1.9.10-1.0.13")
+    //UCrop
+    implementation("com.github.yalantis:ucrop:2.2.6")
+    //Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.9.1")
 
-
+    //Compressor
+    implementation("id.zelory:compressor:3.0.1")
 }

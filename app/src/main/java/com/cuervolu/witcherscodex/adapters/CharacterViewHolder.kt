@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.cuervolu.witcherscodex.databinding.ItemCharacterBinding
 import com.cuervolu.witcherscodex.domain.models.Character
 import com.cuervolu.witcherscodex.utils.GlideImageLoader
-import timber.log.Timber
 
 class CharacterViewHolder(view: View) : ViewHolder(view) {
 

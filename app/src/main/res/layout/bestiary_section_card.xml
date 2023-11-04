@@ -7,7 +7,7 @@
     android:layout_marginBottom="?attr/actionBarSize"
     android:elevation="8dp"
     android:layout_margin="@dimen/common_min_padding"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="@color/secondary"
     app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,9 +29,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/common_min_padding"
             android:text="@string/ver_detalle"
-            android:textColor="@color/white"
+            android:textColor="@color/secondary"
             app:icon="@drawable/baseline_ads_click_24"
-            app:iconTint="@color/white"
+            app:iconTint="@color/secondary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/beastImageView" />
 

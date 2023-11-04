@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.cuervolu.witcherscodex.core.Event
 import com.cuervolu.witcherscodex.domain.SendEmailVerificationUseCase
 import com.cuervolu.witcherscodex.domain.VerifyEmailUseCase
+
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch

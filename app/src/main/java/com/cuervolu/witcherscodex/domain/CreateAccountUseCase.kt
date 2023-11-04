@@ -7,6 +7,7 @@ import com.cuervolu.witcherscodex.ui.signin.model.UserSignIn
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.firestore.FirebaseFirestoreException
 import timber.log.Timber
+
 import javax.inject.Inject
 
 /**
@@ -53,10 +54,10 @@ class CreateAccountUseCase @Inject constructor(
                 false
             }
         } catch (e: FirebaseAuthException) {
-            Timber.e(e.localizedMessage)
+            e.localizedMessage?.let { Timber.e(it) }
             return false
         }catch (e: FirebaseFirestoreException) {
-            Timber.e(e.localizedMessage)
+            e.localizedMessage?.let { Timber.e(it) }
             return false
         }
     }

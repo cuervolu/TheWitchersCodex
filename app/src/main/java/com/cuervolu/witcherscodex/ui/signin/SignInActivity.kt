@@ -34,6 +34,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+
 import javax.inject.Inject
 
 /**

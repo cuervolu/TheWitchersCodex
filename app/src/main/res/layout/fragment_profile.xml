@@ -4,18 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_texture"
+    android:background="@color/primary"
     tools:context=".ui.dashboard.ProfileFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
         <!--Username-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:background="@color/white"
+            android:background="@color/secondary"
             android:padding="20dp">
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -189,19 +189,22 @@
                     android:textColor="@color/paper" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/CTA"
                 android:fontFamily="@font/opensans_bold"
                 android:text="@string/update"
-                android:textColor="@color/white"/>
-            <Button
+                android:textColor="@color/white" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnLogOut"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/CTA"
                 android:fontFamily="@font/opensans_bold"
                 android:text="@string/log_out"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white" />
 
         </LinearLayout>
     </LinearLayout>

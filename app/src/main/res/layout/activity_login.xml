@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_dark"
+    android:background="@color/primary"
     tools:context=".ui.login.LoginActivity">
 
     <androidx.constraintlayout.widget.Guideline
@@ -61,8 +61,8 @@
             android:hint="@string/login_hint_password"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
-            android:textColorHighlight="@color/error_dark"
-            android:textColorHint="@color/error_dark" />
+            android:textColorHighlight="@color/error"
+            android:textColorHint="@color/error" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

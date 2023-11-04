@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.cuervolu.witcherscodex.R
 import com.cuervolu.witcherscodex.core.dialog.DialogFragmentLauncher
@@ -21,14 +20,10 @@ import com.cuervolu.witcherscodex.core.ex.toast
 import com.cuervolu.witcherscodex.data.network.FirebaseClient
 import com.cuervolu.witcherscodex.data.network.GoogleClient
 import com.cuervolu.witcherscodex.databinding.ActivityLoginBinding
-import com.cuervolu.witcherscodex.ui.dashboard.DashboardActivity
 import com.cuervolu.witcherscodex.ui.login.model.UserLogin
-import com.cuervolu.witcherscodex.ui.signin.SignInActivity
-import com.cuervolu.witcherscodex.ui.verification.VerificationActivity
 import com.cuervolu.witcherscodex.utils.LoginActivityHelper
 import com.cuervolu.witcherscodex.utils.MusicPlayerManager
-import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.GoogleAuthProvider
+
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
@@ -96,6 +91,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun initListeners() {
         binding.viewBottom.btnGoogle.setOnClickListener {
+            Timber.d("Google button clicked")
             // Utiliza el cliente de Google para iniciar la autenticación con One Tap UI
             googleClient.oneTapClient.beginSignIn(googleClient.signUpRequest)
                 .addOnSuccessListener(this) { result ->
@@ -110,7 +106,7 @@ class LoginActivity : AppCompatActivity() {
                 }
                 .addOnFailureListener(this) { e ->
                     // En caso de error, puedes manejarlo aquí
-                    Timber.d(e.localizedMessage)
+                    e.localizedMessage?.let { it1 -> Timber.d(it1) }
                 }
         }
         binding.etEmail.onTextChanged { text ->

@@ -14,6 +14,7 @@
     <string name="login_error_dialog_body">Please check the data or try againo</string>
     <string name="login_error_dialog_negative_action">Cancel</string>
     <string name="login_error_dialog_positive_action">Retry</string>
+    <string name="watching_count"> %1$s watching</string>
 
     <string name="introduction_button_signin">Create Account</string>
 
