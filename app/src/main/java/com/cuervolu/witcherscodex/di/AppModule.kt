@@ -1,6 +1,7 @@
 package com.cuervolu.witcherscodex.di
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,8 +16,10 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideQueryMonstersByName() = FirebaseFirestore.getInstance()
-        .collection("bestiary")
-        .orderBy("name", ASCENDING)
-        .limit(pageSize.toLong())
+    fun provideQueryMonstersByName(): Query {
+        return FirebaseFirestore.getInstance()
+            .collection("bestiary")
+            .orderBy("name", ASCENDING)
+            .limit(pageSize.toLong())
+    }
 }

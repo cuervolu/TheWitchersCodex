@@ -1,6 +1,5 @@
 package com.cuervolu.witcherscodex.ui.bestiary
 
-import BestiaryPagingSource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager

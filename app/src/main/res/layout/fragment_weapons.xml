@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/primary"
     android:padding="16dp"
+    app:layout_constraintBottom_toTopOf="@+id/bottomBar"
     tools:context=".ui.weapons.WeaponsFragment">
 
     <TextView

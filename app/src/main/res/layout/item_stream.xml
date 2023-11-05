@@ -4,63 +4,71 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="@dimen/common_min_padding"
+    android:background="@color/paper"
+    android:orientation="vertical"
     app:cardCornerRadius="20dp"
     app:cardElevation="8dp"
     app:strokeColor="@color/secondary"
     app:strokeWidth="2dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:background="@color/paper"
-        android:padding="10dp">
+        >
 
         <ImageView
             android:id="@+id/ivStream"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:contentDescription="@string/username_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:contentDescription="@string/stream_image"
             android:scaleType="centerCrop"
-            app:layout_constraintDimensionRatio="H,1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            tools:src="@drawable/image_placeholder_error" />
 
-        <TextView
-            android:id="@+id/txtStreamTitle"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:padding="@dimen/common_min_padding"
-            android:fontFamily="@font/opensans_bold"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="@+id/ivStream"
-            app:layout_constraintStart_toStartOf="@+id/ivStream"
-            app:layout_constraintTop_toTopOf="@+id/ivStream"
-            tools:text="Title" />
+            android:layout_margin="@dimen/common_min_padding"
+            android:orientation="vertical">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/txtStreamViewerCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/CTA"
-            android:textColor="@color/secondary"
-            app:layout_constraintEnd_toEndOf="@+id/ivStream"
-            app:layout_constraintStart_toStartOf="@+id/ivStream"
-            app:layout_constraintTop_toBottomOf="@+id/txtStreamTitle"
-            tools:text="205 Viewers" />
+            <TextView
+                android:id="@+id/txtStreamTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/opensans_bold"
+                android:padding="@dimen/common_min_padding"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="@+id/ivStream"
+                app:layout_constraintStart_toStartOf="@+id/ivStream"
+                app:layout_constraintTop_toTopOf="@+id/ivStream"
+                tools:text="Title" />
 
-        <TextView
-            android:id="@+id/txtStreamUsername"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/secondary"
-            app:layout_constraintEnd_toEndOf="@+id/ivStream"
-            app:layout_constraintStart_toStartOf="@+id/ivStream"
-            app:layout_constraintTop_toBottomOf="@+id/txtStreamViewerCount"
-            tools:text="Username" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/txtStreamViewerCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/CTA"
+                android:textColor="@color/secondary"
+                app:layout_constraintEnd_toEndOf="@+id/ivStream"
+                app:layout_constraintStart_toStartOf="@+id/ivStream"
+                app:layout_constraintTop_toBottomOf="@+id/txtStreamTitle"
+                tools:text="205 Viewers" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/txtStreamUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/secondary"
+                app:layout_constraintEnd_toEndOf="@+id/ivStream"
+                app:layout_constraintStart_toStartOf="@+id/ivStream"
+                app:layout_constraintTop_toBottomOf="@+id/txtStreamViewerCount"
+                tools:text="Username" />
+
+        </LinearLayout>
+    </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

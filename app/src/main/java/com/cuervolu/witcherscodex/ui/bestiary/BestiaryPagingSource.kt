@@ -1,3 +1,5 @@
+package com.cuervolu.witcherscodex.ui.bestiary
+
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.cuervolu.witcherscodex.domain.models.Bestiary
