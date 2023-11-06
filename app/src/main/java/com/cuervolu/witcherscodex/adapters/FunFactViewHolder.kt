@@ -10,9 +10,21 @@ class FunFactViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val binding = ItemFactBinding.bind(view)
 
     fun render(factModel: FunFact, onClickListener: (FunFact) -> Unit) {
+        binding.tvFactTitle.text = factModel.title
         GlideImageLoader.loadImage(binding.ivFact, factModel.imageUrl)
+
+
+        binding.ivFact.setOnClickListener {
+            val isExpanded = binding.tvFactTitle.visibility == View.VISIBLE
+            if (isExpanded) {
+                binding.tvFactTitle.visibility = View.GONE
+            } else {
+                binding.tvFactTitle.visibility = View.VISIBLE
+            }
+        }
         itemView.setOnClickListener {
             onClickListener(factModel)
         }
+
     }
 }

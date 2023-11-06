@@ -12,81 +12,23 @@ import javax.inject.Singleton
 @Singleton
 class BestiaryService @Inject constructor(
     private val firebase: FirebaseClient
-) {
+): CRUDService<Bestiary> {
 
-    // Método para crear una nueva entrada del bestiario
-    fun createBestiaryEntry(
-        entry: Bestiary,
-        imageUri: Uri,
-        onSuccess: () -> Unit,
-        onError: () -> Unit
-    ) {
-        // Agrega la entrada del bestiario a Firestore
-        firebase.db.collection("bestiary")
-            .add(entry)
-            .addOnSuccessListener { documentReference ->
-                // La entrada se ha creado con éxito en Firestore.
-                val entryId = documentReference.id // Obtiene el ID de la entrada recién creada.
 
-                // Llama a la función uploadBestiaryImage para subir la imagen y manejar el éxito o el error.
-                uploadBestiaryImage(
-                    entryId,
-                    imageUri,
-                    onSuccess = {
-                        Timber.d("La imagen se ha subido con éxito.")
-                        onSuccess()
-                    },
-                    onError = {
-                        Timber.e("Ha ocurrido un error al subir la imagen.")
-                        onError()
-                    }
-                )
-            }
-            .addOnFailureListener { exception ->
-                Timber.e("Ha ocurrido un error al crear la entrada del bestiario: $exception")
-                onError()
-            }
+    override fun createEntry(entry: Bestiary, onSuccess: () -> Unit, onError: () -> Unit) {
+        TODO("Not yet implemented")
     }
 
-    fun getBestiaryEntries(
-        lastDocument: DocumentSnapshot?,
-        pageSize: Int,
-        onSuccess: (List<Bestiary>, DocumentSnapshot?) -> Unit,
-        onError: () -> Unit
-    ) {
-        // Construye la consulta
-        val query = firebase.db.collection("bestiary")
-            .orderBy("name")
-            .limit(pageSize.toLong())
+    override fun readEntry(entryId: String, onSuccess: (Bestiary) -> Unit, onError: () -> Unit) {
+        TODO("Not yet implemented")
+    }
 
-        // Si hay un último documento, comienza desde ese documento
-        if (lastDocument != null) {
-            Timber.d("LastDocument isn't null")
-            query.startAfter(lastDocument)
-        } else {
-            Timber.w("LastDocument is null")
-        }
+    override fun updateEntry(entry: Bestiary, onSuccess: () -> Unit, onError: () -> Unit) {
+        TODO("Not yet implemented")
+    }
 
-        // Ejecuta la consulta
-        query.get()
-            .addOnSuccessListener { querySnapshot ->
-                val monsters = mutableListOf<Bestiary>()
-                for (document in querySnapshot) {
-                    val monster = document.toObject(Bestiary::class.java)
-                    monsters.add(monster)
-                }
-
-                // Obtén el último documento de la consulta actual
-                val newLastDocument = querySnapshot.documents.lastOrNull()
-                Timber.d("LastDocument is: ${newLastDocument?.getString("name")}")
-
-                // Llama a la función onSuccess y pasa la lista de monstruos y el último documento
-                onSuccess(monsters, newLastDocument)
-            }
-            .addOnFailureListener { exception ->
-                Timber.e("Ha ocurrido un error al cargar los monstruos: ${exception.localizedMessage}")
-                onError()
-            }
+    override fun deleteEntry(entryId: String, onSuccess: () -> Unit, onError: () -> Unit) {
+        TODO("Not yet implemented")
     }
 
     fun getLastFiveBestiaryEntries(
@@ -121,38 +63,4 @@ class BestiaryService @Inject constructor(
     }
 
 
-    // Método para leer una entrada por su ID
-    fun readBestiaryEntry(entryId: String): Bestiary? {
-        // Aquí puedes implementar la lógica para obtener una entrada por su ID
-        return null // Por defecto, se retorna null si el bestiario no se encuentra
-    }
-
-    // Método para actualizar una entrada existente
-    fun updateBestiaryEntry(entry: Bestiary) {
-        // Aquí puedes implementar la lógica para actualizar una entrada existente
-    }
-
-    // Método para eliminar una bestia por su ID
-    fun deleteBestiaryEntry(entryId: String) {
-        // Aquí puedes implementar la lógica para eliminar una bestia por su ID
-    }
-
-    private fun uploadBestiaryImage(
-        entryId: String,
-        imageUri: Uri,
-        onSuccess: () -> Unit,
-        onError: () -> Unit
-    ) {
-        val storageRef = firebase.storage.reference.child("/images/bestiary/$entryId")
-        // Sube la imagen a Firebase Storage
-        storageRef.putFile(imageUri)
-            .addOnSuccessListener { _ ->
-                // La imagen se ha subido con éxito. Llama a la función onSuccess.
-                onSuccess()
-            }
-            .addOnFailureListener { exception ->
-                // Ocurrió un error al subir la imagen. Llama a la función onError.
-                onError()
-            }
-    }
 }

@@ -69,4 +69,8 @@
     <string name="go_to_dashboard">Go to Dashboard</string>
     <string name="streams">Streams</string>
     <string name="maps">Maps</string>
+    <string name="fun_fact_image">Fun Fact Image</string>
+    <string name="add_fun_fact">Add Fun Fact</string>
+    <string name="add_a_monster_image_bruh">Add a monster image bruh</string>
+    <string name="name">Name</string>
 </resources>

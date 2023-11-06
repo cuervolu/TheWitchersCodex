@@ -11,13 +11,8 @@ import javax.inject.Singleton
 @Singleton
 class CharacterService @Inject constructor(
     private val firebase: FirebaseClient
-) {
+) : CRUDService<Character> {
     private val characterCollection = firebase.db.collection("characters")
-
-    // Create (Agregar un nuevo personaje)
-    suspend fun addCharacter(character: Character) {
-        characterCollection.add(character)
-    }
 
     // List (Obtener todos los personajes)
     fun getAllCharacters(onSuccess: (List<Character>) -> Unit, onError: () -> Unit) {
@@ -34,20 +29,19 @@ class CharacterService @Inject constructor(
         }
     }
 
-
-    // Read (Obtener un personaje por su ID)
-    suspend fun getCharacterById(characterId: String): Character? {
-        val snapshot = characterCollection.document(characterId).get().await()
-        return snapshot.toObject(Character::class.java)
+    override fun createEntry(entry: Character, onSuccess: () -> Unit, onError: () -> Unit) {
+        TODO("Not yet implemented")
     }
 
-    // Update (Actualizar un personaje existente)
-    fun updateCharacter(characterId: String, updatedCharacter: Character) {
-        characterCollection.document(characterId).set(updatedCharacter, SetOptions.merge())
+    override fun readEntry(entryId: String, onSuccess: (Character) -> Unit, onError: () -> Unit) {
+        TODO("Not yet implemented")
     }
 
-    // Delete (Eliminar un personaje por su ID)
-    fun deleteCharacter(characterId: String) {
-        characterCollection.document(characterId).delete()
+    override fun updateEntry(entry: Character, onSuccess: () -> Unit, onError: () -> Unit) {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteEntry(entryId: String, onSuccess: () -> Unit, onError: () -> Unit) {
+        TODO("Not yet implemented")
     }
 }

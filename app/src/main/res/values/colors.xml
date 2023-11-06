@@ -9,6 +9,7 @@
     <color name="secondary_light">#FFFFFF</color>
     <color name="secondary_light_60">#99FFFFFF</color>
     <color name="blue">#4e636c</color>
+    <color name="black">#000000</color>
 
     <color name="background">#232730</color>
     <color name="background_dark">#1B1D29</color>

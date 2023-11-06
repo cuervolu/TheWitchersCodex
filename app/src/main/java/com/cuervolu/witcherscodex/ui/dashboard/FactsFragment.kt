@@ -31,7 +31,6 @@ class FactsFragment : Fragment() {
     private val viewModel: FactsViewModel by viewModels()
 
     private lateinit var binding: FragmentFactsBinding
-    private lateinit var searchView: SearchView
     private lateinit var fab: FloatingActionButton
     private lateinit var  factsAdapter: FactsAdapter
 
@@ -50,27 +49,6 @@ class FactsFragment : Fragment() {
         setFactsAdapter()
         getFacts()
         setProgressBarAccordingToLoadState()
-
-        searchView = view.findViewById(R.id.searchView)
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                val queryString = query ?: ""
-                // Lanzar una coroutine para ejecutar la filtración en un contexto suspendido
-                lifecycleScope.launch {
-                    factsAdapter.filter(queryString)
-                }
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                val queryString = newText ?: ""
-                // Lanzar una coroutine para ejecutar la filtración en un contexto suspendido
-                lifecycleScope.launch {
-                    factsAdapter.filter(queryString)
-                }
-                return false
-            }
-        })
     }
 
 
