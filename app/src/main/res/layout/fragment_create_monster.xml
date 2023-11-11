@@ -26,6 +26,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/FormTextInputLayout"
+                app:boxBackgroundColor="@color/accent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/common_min_padding"
@@ -42,6 +43,26 @@
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:textColor="@color/black" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/FormTextInputLayout"
+                android:background="@color/accent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/common_min_padding"
+                android:hint="@string/type"
+                android:textColorHint="@color/secondary"
+                android:theme="@style/Widget.AppCompat.DropDownItem.Spinner"
+                app:hintTextColor="@color/secondary"
+                app:startIconDrawable="@drawable/guide">
+
+                <Spinner
+                    android:prompt="@string/type"
+                    android:id="@+id/types_spinner"
+                    android:background="@color/accent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -42,7 +42,8 @@ class BestiaryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bestiaryAdapter = BestiaryAdapter(viewLifecycleOwner.lifecycle) { monster -> onItemSelected(monster) }
+        bestiaryAdapter =
+            BestiaryAdapter(viewLifecycleOwner.lifecycle) { monster -> onItemSelected(monster) }
         setBestiaryAdapter()
         getMonsters()
         setProgressBarAccordingToLoadState()
@@ -67,33 +68,47 @@ class BestiaryFragment : Fragment() {
                 return false
             }
         })
-    }
 
-    private fun getMonsters() {
-        lifecycleScope.launch {
-            bestiaryViewModel.flow.collectLatest {
-                bestiaryAdapter.submitData(it)
+        fab = binding.fab
+
+        fab.setOnClickListener {
+            replaceFragment(CreateMonsterFragment.newInstance())
+        }
+        }
+
+        private fun getMonsters() {
+            lifecycleScope.launch {
+                bestiaryViewModel.flow.collectLatest {
+                    bestiaryAdapter.submitData(it)
+                }
             }
+        }
+
+        private fun setBestiaryAdapter() {
+            binding.rwBeastiary.layoutManager = LinearLayoutManager(requireContext())
+            binding.rwBeastiary.adapter = bestiaryAdapter
+        }
+
+        private fun onItemSelected(monster: Bestiary) {
+            Toast.makeText(requireContext(), monster.name, Toast.LENGTH_SHORT).show()
+        }
+
+        private fun setProgressBarAccordingToLoadState() {
+            lifecycleScope.launch {
+                bestiaryAdapter.loadStateFlow.collect { loadStates ->
+                    val isLoading = loadStates.refresh is LoadState.Loading
+                    binding.progressBar.isVisible = isLoading
+                    binding.loadingLayout.isVisible = isLoading
+                }
+            }
+        }
+
+
+        private fun replaceFragment(fragment: Fragment) {
+            val transaction = requireActivity().supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment_container, fragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
         }
     }
 
-    private fun setBestiaryAdapter() {
-        binding.rwBeastiary.layoutManager = LinearLayoutManager(requireContext())
-        binding.rwBeastiary.adapter = bestiaryAdapter
-    }
-
-    private fun onItemSelected(monster: Bestiary) {
-        Toast.makeText(requireContext(), monster.name, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun setProgressBarAccordingToLoadState() {
-        lifecycleScope.launch {
-            bestiaryAdapter.loadStateFlow.collect { loadStates ->
-                val isLoading = loadStates.refresh is LoadState.Loading
-                binding.progressBar.isVisible = isLoading
-                binding.loadingLayout.isVisible = isLoading
-            }
-        }
-    }
-
-}

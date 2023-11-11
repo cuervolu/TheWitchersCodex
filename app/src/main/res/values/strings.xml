@@ -73,4 +73,18 @@
     <string name="add_fun_fact">Add Fun Fact</string>
     <string name="add_a_monster_image_bruh">Add a monster image bruh</string>
     <string name="name">Name</string>
+    <string name="type">Type</string>
+    <string-array name="types_array">
+        <item>Beasts</item>
+        <item>Cursed Ones</item>
+        <item>Draconids</item>
+        <item>Elementa</item>
+        <item>Hybrids</item>
+        <item>Insectoids</item>
+        <item>Necrophages</item>
+        <item>Ogroids</item>
+        <item>Relicts</item>
+        <item>Specters</item>
+        <item>Vampires</item>
+    </string-array>
 </resources>
