@@ -6,6 +6,8 @@ plugins {
     id("io.gitlab.arturbosch.detekt")
     id("com.google.devtools.ksp")
 }
+val TWITCH_CLIENT_ID by extra("18co1vlea403qe8lltwkesrmlw7hs0")
+val TWITCH_AUTHORIZATION by extra("bx8cpl4zq1p0lp9dmbxwdqp3y2c5pa")
 
 android {
     namespace = "com.cuervolu.witcherscodex"
@@ -57,7 +59,7 @@ android {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.10")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.20")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
@@ -80,7 +82,7 @@ dependencies {
     //Spinkit
     implementation("com.github.ybq:Android-SpinKit:1.4.0")
     // Import the Firebase BoM
-    implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
+    implementation(platform("com.google.firebase:firebase-bom:32.5.0"))
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation("com.google.firebase:firebase-analytics-ktx")
     //Auth
@@ -106,7 +108,7 @@ dependencies {
     implementation("com.google.firebase:firebase-appcheck:17.1.1")
     implementation("com.google.firebase:firebase-appcheck-safetynet:16.1.2")
     //ksp
-    implementation("com.google.devtools.ksp:symbol-processing-api:1.9.10-1.0.13")
+    implementation("com.google.devtools.ksp:symbol-processing-api:1.9.20-1.0.14")
     //UCrop
     implementation("com.github.yalantis:ucrop:2.2.6")
     //Retrofit

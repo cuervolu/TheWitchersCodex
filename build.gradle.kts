@@ -1,4 +1,6 @@
 buildscript {
+    val TWITCH_AUTHORIZATION by extra("bx8cpl4zq1p0lp9dmbxwdqp3y2c5pa")
+    val TWITCH_CLIENT_ID by extra("18co1vlea403qe8lltwkesrmlw7hs0")
     dependencies {
         classpath("com.google.gms:google-services:4.4.0")
     }
@@ -12,4 +14,6 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version("1.23.1")
     id("com.google.devtools.ksp") version "1.9.10-1.0.13" apply false
 }
+val TWITCH_AUTHORIZATION by extra("bx8cpl4zq1p0lp9dmbxwdqp3y2c5pa")
+val TWITCH_CLIENT_ID by extra("18co1vlea403qe8lltwkesrmlw7hs0")
 
