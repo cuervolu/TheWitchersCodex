@@ -123,12 +123,15 @@ class HomeViewModel @Inject constructor(
     private fun getStreams(): Retrofit {
         val clientId = BuildConfig.CLIENT_ID
         val authorization = BuildConfig.Authorization
+        Timber.d("Client ID: $clientId")
+        Timber.d("Authorization: $authorization")
+
         val httpClient = OkHttpClient.Builder()
             .addInterceptor(Interceptor { chain ->
                 val originalRequest: Request = chain.request()
                 val requestBuilder: Request.Builder = originalRequest.newBuilder()
                     .header("Client-ID", clientId)
-                    .header("Authorization", authorization)
+                    .header("Authorization", "Bearer $authorization")
                     .method(originalRequest.method, originalRequest.body)
                 val request: Request = requestBuilder.build()
                 chain.proceed(request)
