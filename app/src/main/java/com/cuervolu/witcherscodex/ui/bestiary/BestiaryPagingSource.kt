@@ -25,8 +25,15 @@ class BestiaryPagingSource(
             val lastVisibleProduct = currentPage.documents[currentPage.size() - 1]
             val nextPage = queryMonstersByName.startAfter(lastVisibleProduct).get().await()
             isLoading.value = false
+
+            val bestiaryList = currentPage.documents.mapNotNull { document ->
+                val entry = document.toObject(Bestiary::class.java)
+                entry?.entryId = document.id
+                entry
+            }
+
             LoadResult.Page(
-                data = currentPage.toObjects(Bestiary::class.java),
+                data = bestiaryList,
                 prevKey = null,
                 nextKey = nextPage
             )

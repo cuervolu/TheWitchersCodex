@@ -217,7 +217,7 @@ class LoginActivity : AppCompatActivity() {
         MusicPlayerManager.pausePlaying()
     }
     private fun goToForgotPassword() {
-        toast(getString(R.string.feature_not_allowed))
+        //TODO: Implementar navegación a la pantalla de restablecimiento de contraseña
     }
 
 }

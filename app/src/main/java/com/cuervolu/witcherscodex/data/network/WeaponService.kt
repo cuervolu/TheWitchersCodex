@@ -1,5 +1,6 @@
 package com.cuervolu.witcherscodex.data.network
 
+import android.net.Uri
 import com.cuervolu.witcherscodex.domain.models.Weapon
 import com.google.firebase.firestore.SetOptions
 
@@ -28,7 +29,12 @@ class WeaponService @Inject constructor(
             onError()
         }
     }
-    override fun createEntry(entry: Weapon, onSuccess: () -> Unit, onError: () -> Unit) {
+    override fun createEntry(
+        entry: Weapon,
+        imageUri: Uri?,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    ) {
         TODO("Not yet implemented")
     }
 
