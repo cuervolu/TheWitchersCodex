@@ -1,5 +1,6 @@
-package com.cuervolu.witcherscodex.ui.bestiary
+package com.cuervolu.witcherscodex.ui.characters
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,17 +13,18 @@ import com.cuervolu.witcherscodex.R
 import com.cuervolu.witcherscodex.core.dialog.ConfirmationDialog
 import com.cuervolu.witcherscodex.core.dialog.DialogFragmentLauncher
 import com.cuervolu.witcherscodex.core.dialog.ErrorDialog
-import com.cuervolu.witcherscodex.databinding.FragmentEntryDetailBinding
-import com.cuervolu.witcherscodex.domain.models.Bestiary
+import com.cuervolu.witcherscodex.databinding.FragmentCharacterDetailBinding
+import com.cuervolu.witcherscodex.domain.models.Character
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class EntryDetailFragment : Fragment() {
+class CharacterDetailFragment : Fragment() {
 
     companion object {
-        fun newInstance(entryId: String): EntryDetailFragment {
-            val fragment = EntryDetailFragment()
+        fun newInstance(entryId: String): CharacterDetailFragment {
+            val fragment = CharacterDetailFragment()
             val args = Bundle()
             args.putString("entryId", entryId)
 
@@ -31,8 +33,8 @@ class EntryDetailFragment : Fragment() {
         }
     }
 
-    private val viewModel: EntryDetailViewModel by viewModels()
-    private lateinit var binding: FragmentEntryDetailBinding
+    private val viewModel: CharacterDetailViewModel by viewModels()
+    private lateinit var binding: FragmentCharacterDetailBinding
 
     @Inject
     lateinit var dialogLauncher: DialogFragmentLauncher
@@ -40,14 +42,14 @@ class EntryDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentEntryDetailBinding.inflate(inflater, container, false)
+        binding = FragmentCharacterDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentEntryDetailBinding.bind(view)
+        binding = FragmentCharacterDetailBinding.bind(view)
 
         viewModel.entryLiveData.observe(viewLifecycleOwner) { entry ->
             updateUI(entry)
@@ -55,7 +57,7 @@ class EntryDetailFragment : Fragment() {
 
         // Obtener el ID de la entrada de los argumentos del fragmento
         val entryId: String? = arguments?.getString("entryId")
-
+        Timber.d("entryId: $entryId")
         entryId?.let {
             viewModel.loadEntry(it)
         }
@@ -71,10 +73,10 @@ class EntryDetailFragment : Fragment() {
         }
 
         binding.fabEdit.setOnClickListener {
-            replaceFragment(UpdateEntryFragment.newInstance(entryId!!))
+            replaceFragment(UpdateCharacterFragment.newInstance(entryId!!))
         }
 
-        viewModel.deleteMonsterResult.observe(viewLifecycleOwner) { result ->
+        viewModel.deleteCharacterResult.observe(viewLifecycleOwner) { result ->
             handleEditMonsterResult(result)
         }
     }
@@ -86,7 +88,7 @@ class EntryDetailFragment : Fragment() {
                 getString(R.string.entry_delete_confirmation_title),
                 Toast.LENGTH_SHORT
             ).show()
-            replaceFragment(BestiaryFragment())
+            replaceFragment(CharactersFragment())
 
         } else {
             showErrorDialog(
@@ -120,22 +122,31 @@ class EntryDetailFragment : Fragment() {
         ).show(requireActivity().supportFragmentManager, null)
     }
 
-    private fun updateUI(entry: Bestiary) {
+    @SuppressLint("SetTextI18n")
+    private fun updateUI(entry: Character) {
 
         Glide.with(binding.root)
-            .load(entry.image)
-            .placeholder(R.drawable.placeholder_4)
+            .load(entry.image_url)
+            .placeholder(R.drawable.placeholder_2)
             .error(R.drawable.image_placeholder_error)
             .into(binding.monsterImageView)
 
         binding.monsterNameTextView.text = entry.name
-        binding.monsterTypeTextView.text = entry.type
-        binding.locationTextView.text = getString(R.string.location_placeholder, entry.location)
-        binding.descriptionTextView.text = entry.desc
-        binding.lootTextView.text =
-            getString(R.string.loot_placeholder, entry.loot ?: "No loot")
-        binding.weaknessTextView.text =
-            getString(R.string.weakness_placeholder, entry.weakness ?: "No known weakness")
+        binding.characterProfessionTextView.text =
+            entry.personal_information?.profession ?: "Unknown"
+        binding.AgeTextView.text = "Age: ${entry.age}"
+        binding.descriptionTextView.text = entry.description
+        binding.BornTextView.text = "Born: ${entry.basic_information?.born ?: "Unknown"}"
+        binding.EyeColorTextView.text =
+            "Eye Color: ${entry.basic_information?.eye_color ?: "Unknown"}"
+        binding.HairColorTextView.text =
+            "Hair Color: ${entry.basic_information?.hair_color ?: "Unknown"}"
+        binding.HeightTextView.text = "Height: ${entry.basic_information?.height ?: "Unknown"}"
+        binding.SkinTextView.text = "Skin: ${entry.basic_information?.skin ?: "Unknown"}"
+        binding.NationalityTextView.text =
+            "Nationality: ${entry.basic_information?.nationality ?: "Unknown"}"
+        binding.GenderTextView.text = "Gender: ${entry.basic_information?.gender ?: "Unknown"}"
+        binding.RaceTextView.text = "Race: ${entry.basic_information?.race ?: "Unknown"}"
     }
 
     private fun replaceFragment(fragment: Fragment) {

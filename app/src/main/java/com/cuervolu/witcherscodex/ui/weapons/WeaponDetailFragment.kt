@@ -1,5 +1,6 @@
-package com.cuervolu.witcherscodex.ui.bestiary
+package com.cuervolu.witcherscodex.ui.weapons
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,17 +13,17 @@ import com.cuervolu.witcherscodex.R
 import com.cuervolu.witcherscodex.core.dialog.ConfirmationDialog
 import com.cuervolu.witcherscodex.core.dialog.DialogFragmentLauncher
 import com.cuervolu.witcherscodex.core.dialog.ErrorDialog
-import com.cuervolu.witcherscodex.databinding.FragmentEntryDetailBinding
-import com.cuervolu.witcherscodex.domain.models.Bestiary
+import com.cuervolu.witcherscodex.databinding.FragmentWeaponDetailBinding
+import com.cuervolu.witcherscodex.domain.models.Weapon
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class EntryDetailFragment : Fragment() {
+class WeaponDetailFragment : Fragment() {
 
     companion object {
-        fun newInstance(entryId: String): EntryDetailFragment {
-            val fragment = EntryDetailFragment()
+        fun newInstance(entryId: String): WeaponDetailFragment {
+            val fragment = WeaponDetailFragment()
             val args = Bundle()
             args.putString("entryId", entryId)
 
@@ -31,8 +32,8 @@ class EntryDetailFragment : Fragment() {
         }
     }
 
-    private val viewModel: EntryDetailViewModel by viewModels()
-    private lateinit var binding: FragmentEntryDetailBinding
+    private val viewModel: WeaponDetailViewModel by viewModels()
+    private lateinit var binding: FragmentWeaponDetailBinding
 
     @Inject
     lateinit var dialogLauncher: DialogFragmentLauncher
@@ -40,14 +41,14 @@ class EntryDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentEntryDetailBinding.inflate(inflater, container, false)
+        binding = FragmentWeaponDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentEntryDetailBinding.bind(view)
+        binding = FragmentWeaponDetailBinding.bind(view)
 
         viewModel.entryLiveData.observe(viewLifecycleOwner) { entry ->
             updateUI(entry)
@@ -71,10 +72,10 @@ class EntryDetailFragment : Fragment() {
         }
 
         binding.fabEdit.setOnClickListener {
-            replaceFragment(UpdateEntryFragment.newInstance(entryId!!))
+            replaceFragment(UpdateWeaponFragment.newInstance(entryId!!))
         }
 
-        viewModel.deleteMonsterResult.observe(viewLifecycleOwner) { result ->
+        viewModel.deleteWeaponResult.observe(viewLifecycleOwner) { result ->
             handleEditMonsterResult(result)
         }
     }
@@ -86,7 +87,7 @@ class EntryDetailFragment : Fragment() {
                 getString(R.string.entry_delete_confirmation_title),
                 Toast.LENGTH_SHORT
             ).show()
-            replaceFragment(BestiaryFragment())
+            replaceFragment(WeaponsFragment())
 
         } else {
             showErrorDialog(
@@ -120,22 +121,19 @@ class EntryDetailFragment : Fragment() {
         ).show(requireActivity().supportFragmentManager, null)
     }
 
-    private fun updateUI(entry: Bestiary) {
+    @SuppressLint("SetTextI18n")
+    private fun updateUI(entry: Weapon) {
 
         Glide.with(binding.root)
-            .load(entry.image)
+            .load(entry.imageUrl)
             .placeholder(R.drawable.placeholder_4)
             .error(R.drawable.image_placeholder_error)
-            .into(binding.monsterImageView)
+            .into(binding.weaponImageView)
 
-        binding.monsterNameTextView.text = entry.name
-        binding.monsterTypeTextView.text = entry.type
-        binding.locationTextView.text = getString(R.string.location_placeholder, entry.location)
-        binding.descriptionTextView.text = entry.desc
-        binding.lootTextView.text =
-            getString(R.string.loot_placeholder, entry.loot ?: "No loot")
-        binding.weaknessTextView.text =
-            getString(R.string.weakness_placeholder, entry.weakness ?: "No known weakness")
+        binding.weaponNameTextView.text = entry.name
+        binding.weaponBaseDamageTextView.text = "Base Damage: ${entry.base_damage}"
+        binding.bonusesTextView.text = "Bonuses: ${entry.bonuses}"
+        binding.CraftingReqTextView.text = "Crafting Requirements: ${entry.crafting_req}"
     }
 
     private fun replaceFragment(fragment: Fragment) {

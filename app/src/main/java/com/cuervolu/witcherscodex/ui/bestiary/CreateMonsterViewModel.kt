@@ -17,8 +17,27 @@ class CreateMonsterViewModel @Inject constructor(private val bestiaryService: Be
     val createMonsterResult: LiveData<Boolean>
         get() = _createMonsterResult
 
-    fun createMonster(name: String, description: String, location: String, type: String, imageUri: Uri) {
-        val monster = Bestiary(name = name, desc = description, location = location, type = type)
+    private val _showErrorDialog = MutableLiveData<Pair<String, String>>()
+    val showErrorDialog: LiveData<Pair<String, String>>
+        get() = _showErrorDialog
+
+    fun createMonster(
+        name: String,
+        description: String,
+        location: String,
+        type: String,
+        loot: String,
+        weakness: String,
+        imageUri: Uri
+    ) {
+        val monster = Bestiary(
+            name = name,
+            desc = description,
+            location = location,
+            type = type,
+            loot = loot,
+            weakness = weakness
+        )
 
         bestiaryService.createEntry(monster, imageUri,
             onSuccess = {
@@ -26,7 +45,10 @@ class CreateMonsterViewModel @Inject constructor(private val bestiaryService: Be
             },
             onError = {
                 _createMonsterResult.value = false
+                _showErrorDialog.value = Pair("Error", "Error al crear la entrada del bestiario")
             }
         )
     }
+
+
 }

@@ -6,14 +6,16 @@ data class Characters(
 )
 
 data class Character(
+    var entryId: String = "",
     val name: String = "",
     val alias: List<String> = emptyList(),
     val basic_information: BasicInformation? = null,
     val personal_information: PersonalInformation? = null,
-    val image_url: String = "",
+    var image_url: String = "",
     val description: String = "",
     val age: String? = null,
-    val status: String? = null
+    val status: String? = null,
+    var author: String? = null,
 )
 
 data class BasicInformation(

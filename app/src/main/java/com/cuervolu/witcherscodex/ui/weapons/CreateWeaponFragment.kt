@@ -1,4 +1,4 @@
-package com.cuervolu.witcherscodex.ui.bestiary
+package com.cuervolu.witcherscodex.ui.weapons
 
 import android.app.Activity
 import android.content.Intent
@@ -15,23 +15,23 @@ import com.bumptech.glide.signature.ObjectKey
 import com.cuervolu.witcherscodex.R
 import com.cuervolu.witcherscodex.core.dialog.DialogFragmentLauncher
 import com.cuervolu.witcherscodex.core.dialog.ErrorDialog
-import com.cuervolu.witcherscodex.databinding.FragmentCreateMonsterBinding
+import com.cuervolu.witcherscodex.databinding.FragmentCreateWeaponBinding
 import com.yalantis.ucrop.UCrop
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CreateMonsterFragment : Fragment() {
+class CreateWeaponFragment : Fragment() {
 
     companion object {
-        fun newInstance() = CreateMonsterFragment()
+        fun newInstance() = CreateWeaponFragment()
     }
 
     @Inject
     lateinit var dialogLauncher: DialogFragmentLauncher
-    private val viewModel: CreateMonsterViewModel by viewModels()
-    private lateinit var binding: FragmentCreateMonsterBinding
+    private val viewModel: CreateWeaponViewModel by viewModels()
+    private lateinit var binding: FragmentCreateWeaponBinding
     private val PICK_IMAGE_REQUEST = 1
     private var selectedImageUri: Uri? = null
 
@@ -39,7 +39,7 @@ class CreateMonsterFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentCreateMonsterBinding.inflate(inflater, container, false)
+        binding = FragmentCreateWeaponBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -53,20 +53,18 @@ class CreateMonsterFragment : Fragment() {
         binding.btnSubmit.setOnClickListener {
             if (validateForm()) {
                 selectedImageUri?.let {
-                    viewModel.createMonster(
+                    viewModel.createWeapon(
                         binding.editTextName.text.toString(),
-                        binding.editTextDescription.text.toString(),
-                        binding.editTextLocation.text.toString(),
-                        binding.editTextType.text.toString(),
-                        binding.editTextLoot.text.toString(),
-                        binding.editTextWeakness.text.toString(),
+                        binding.editTextBonuses.text.toString(),
+                        binding.editTextBaseDamage.text.toString(),
+                        binding.editTextCraftingReq.text.toString(),
                         it
                     )
                 }
             }
         }
 
-        viewModel.createMonsterResult.observe(viewLifecycleOwner) { result ->
+        viewModel.createWeaponResult.observe(viewLifecycleOwner) { result ->
             handleCreateMonsterResult(result)
         }
     }
@@ -79,7 +77,7 @@ class CreateMonsterFragment : Fragment() {
                 getString(R.string.entry_created_confirmation_title),
                 Toast.LENGTH_SHORT
             ).show()
-            replaceFragment(BestiaryFragment())
+            replaceFragment(WeaponsFragment())
             Glide.with(requireContext()).clear(binding.imagePreview)
 
         } else {
@@ -148,26 +146,20 @@ class CreateMonsterFragment : Fragment() {
             binding.textInputLayoutName.error = null
         }
 
-        if (binding.editTextDescription.text.isNullOrBlank()) {
-            binding.textInputLayoutDescription.error = "Description is required"
+        if (binding.editTextBonuses.text.isNullOrBlank()) {
+            binding.textInputLayoutBonuses.error = "Bonuses is required"
             isValid = false
         } else {
-            binding.textInputLayoutDescription.error = null
+            binding.textInputLayoutBonuses.error = null
         }
 
-        if (binding.editTextLocation.text.isNullOrBlank()) {
-            binding.textInputLayoutLocation.error = "Location is required"
+        if (binding.editTextBaseDamage.text.isNullOrBlank()) {
+            binding.textInputLayoutBaseDamage.error = "Base Damage is required"
             isValid = false
         } else {
-            binding.textInputLayoutLocation.error = null
+            binding.textInputLayoutBaseDamage.error = null
         }
 
-        if (binding.editTextType.text.isNullOrBlank()) {
-            binding.textInputLayoutType.error = "Type is required"
-            isValid = false
-        } else {
-            binding.textInputLayoutType.error = null
-        }
 
         return isValid
     }

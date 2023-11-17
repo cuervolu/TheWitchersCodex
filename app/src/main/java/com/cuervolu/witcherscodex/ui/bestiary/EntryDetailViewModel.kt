@@ -6,12 +6,16 @@ import androidx.lifecycle.ViewModel
 import com.cuervolu.witcherscodex.data.network.BestiaryService
 import com.cuervolu.witcherscodex.domain.models.Bestiary
 import dagger.hilt.android.lifecycle.HiltViewModel
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class EntryDetailViewModel @Inject constructor(private val bestiaryService: BestiaryService) :
     ViewModel() {
+
+
+    private val _deleteMonsterResult = MutableLiveData<Boolean>()
+    val deleteMonsterResult: LiveData<Boolean>
+        get() = _deleteMonsterResult
 
     private val _entryLiveData = MutableLiveData<Bestiary>()
     val entryLiveData: LiveData<Bestiary>
@@ -28,5 +32,24 @@ class EntryDetailViewModel @Inject constructor(private val bestiaryService: Best
             }
         )
     }
+
+    fun deleteEntry(entryId: String) {
+        bestiaryService.deleteEntry(
+            entryId,
+            onSuccess = {
+                _deleteMonsterResult.value = true
+            },
+            onError = {
+                _deleteMonsterResult.value = false
+                _showErrorDialog.value = Pair("Error", "Error al eliminar la entrada del bestiario")
+                throw Exception("Error al eliminar la entrada del bestiario")
+
+            }
+        )
+    }
+
+    private val _showErrorDialog = MutableLiveData<Pair<String, String>>()
+    val showErrorDialog: LiveData<Pair<String, String>>
+        get() = _showErrorDialog
 }
 

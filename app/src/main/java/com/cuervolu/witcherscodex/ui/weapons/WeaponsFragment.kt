@@ -1,18 +1,15 @@
 package com.cuervolu.witcherscodex.ui.weapons
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cuervolu.witcherscodex.R
 import com.cuervolu.witcherscodex.adapters.WeaponAdapter
 import com.cuervolu.witcherscodex.databinding.FragmentWeaponsBinding
-import com.cuervolu.witcherscodex.domain.models.Character
 import com.cuervolu.witcherscodex.domain.models.Weapon
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -56,6 +53,10 @@ class WeaponsFragment : Fragment() {
             }
         }
         viewModel.loadWeapons()
+
+        binding.fab.setOnClickListener {
+            replaceFragment(CreateWeaponFragment.newInstance())
+        }
     }
 
     private fun initRecyclerView() {
@@ -67,6 +68,13 @@ class WeaponsFragment : Fragment() {
     }
 
     private fun onItemSelected(weapon: Weapon) {
-        Toast.makeText(requireContext(), weapon.name, Toast.LENGTH_SHORT).show()
+        replaceFragment(WeaponDetailFragment.newInstance(weapon.entryId))
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_container, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 }

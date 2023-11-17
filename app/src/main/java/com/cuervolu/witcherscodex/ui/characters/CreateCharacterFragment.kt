@@ -1,4 +1,4 @@
-package com.cuervolu.witcherscodex.ui.bestiary
+package com.cuervolu.witcherscodex.ui.characters
 
 import android.app.Activity
 import android.content.Intent
@@ -15,23 +15,23 @@ import com.bumptech.glide.signature.ObjectKey
 import com.cuervolu.witcherscodex.R
 import com.cuervolu.witcherscodex.core.dialog.DialogFragmentLauncher
 import com.cuervolu.witcherscodex.core.dialog.ErrorDialog
-import com.cuervolu.witcherscodex.databinding.FragmentCreateMonsterBinding
+import com.cuervolu.witcherscodex.databinding.FragmentCreateCharacterBinding
 import com.yalantis.ucrop.UCrop
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CreateMonsterFragment : Fragment() {
+class CreateCharacterFragment : Fragment() {
 
     companion object {
-        fun newInstance() = CreateMonsterFragment()
+        fun newInstance() = CreateCharacterFragment()
     }
 
     @Inject
     lateinit var dialogLauncher: DialogFragmentLauncher
-    private val viewModel: CreateMonsterViewModel by viewModels()
-    private lateinit var binding: FragmentCreateMonsterBinding
+    private val viewModel: CreateCharacterViewModel by viewModels()
+    private lateinit var binding: FragmentCreateCharacterBinding
     private val PICK_IMAGE_REQUEST = 1
     private var selectedImageUri: Uri? = null
 
@@ -39,7 +39,7 @@ class CreateMonsterFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentCreateMonsterBinding.inflate(inflater, container, false)
+        binding = FragmentCreateCharacterBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -53,20 +53,24 @@ class CreateMonsterFragment : Fragment() {
         binding.btnSubmit.setOnClickListener {
             if (validateForm()) {
                 selectedImageUri?.let {
-                    viewModel.createMonster(
-                        binding.editTextName.text.toString(),
-                        binding.editTextDescription.text.toString(),
-                        binding.editTextLocation.text.toString(),
-                        binding.editTextType.text.toString(),
-                        binding.editTextLoot.text.toString(),
-                        binding.editTextWeakness.text.toString(),
+                    viewModel.createCharacter(
+                        name = binding.editTextName.text.toString(),
+                        description = binding.editTextDescription.text.toString(),
+                        alias = binding.editTextAlias.text.toString(),
+                        hairColor = binding.editTextHairColor.text.toString(),
+                        eyeColor = binding.editTextEyeColor.text.toString(),
+                        race = binding.editTextRace.text.toString(),
+                        skinColor = binding.editTextSkin.text.toString(),
+                        gender = binding.editTextGender.text.toString(),
+                        nationality = binding.editTextNationality.text.toString(),
+                        born = binding.editTextBorn.text.toString(),
                         it
                     )
                 }
             }
         }
 
-        viewModel.createMonsterResult.observe(viewLifecycleOwner) { result ->
+        viewModel.createCharacterResult.observe(viewLifecycleOwner) { result ->
             handleCreateMonsterResult(result)
         }
     }
@@ -79,7 +83,7 @@ class CreateMonsterFragment : Fragment() {
                 getString(R.string.entry_created_confirmation_title),
                 Toast.LENGTH_SHORT
             ).show()
-            replaceFragment(BestiaryFragment())
+            replaceFragment(CharactersFragment())
             Glide.with(requireContext()).clear(binding.imagePreview)
 
         } else {
@@ -134,7 +138,6 @@ class CreateMonsterFragment : Fragment() {
             .signature(ObjectKey(System.currentTimeMillis()))
             .into(binding.imagePreview)
 
-        // Haz visible la vista previa de la imagen
         binding.imagePreview.visibility = View.VISIBLE
     }
 
@@ -155,18 +158,48 @@ class CreateMonsterFragment : Fragment() {
             binding.textInputLayoutDescription.error = null
         }
 
-        if (binding.editTextLocation.text.isNullOrBlank()) {
-            binding.textInputLayoutLocation.error = "Location is required"
+        if (binding.editTextAlias.text.isNullOrBlank()) {
+            binding.textInputLayoutAlias.error = "Alias is required"
             isValid = false
         } else {
-            binding.textInputLayoutLocation.error = null
+            binding.textInputLayoutAlias.error = null
         }
 
-        if (binding.editTextType.text.isNullOrBlank()) {
-            binding.textInputLayoutType.error = "Type is required"
+
+        if (binding.editTextHairColor.text.isNullOrBlank()) {
+            binding.textInputLayoutHairColor.error = "Hair Color is required"
             isValid = false
         } else {
-            binding.textInputLayoutType.error = null
+            binding.textInputLayoutHairColor.error = null
+        }
+
+
+        if (binding.editTextEyeColor.text.isNullOrBlank()) {
+            binding.textInputLayoutEyeColor.error = "Eye Color is required"
+            isValid = false
+        } else {
+            binding.textInputLayoutEyeColor.error = null
+        }
+
+        if (binding.editTextNationality.text.isNullOrBlank()) {
+            binding.textInputLayoutNationality.error = "Nationality is required"
+            isValid = false
+        } else {
+            binding.textInputLayoutEyeColor.error = null
+        }
+
+        if (binding.editTextSkin.text.isNullOrBlank()) {
+            binding.textInputLayoutSkin.error = "Skin is required"
+            isValid = false
+        } else {
+            binding.textInputLayoutEyeColor.error = null
+        }
+
+        if (binding.editTextBorn.text.isNullOrBlank()) {
+            binding.textInputLayoutBorn.error = "Born is required"
+            isValid = false
+        } else {
+            binding.textInputLayoutBorn.error = null
         }
 
         return isValid

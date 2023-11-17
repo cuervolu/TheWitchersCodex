@@ -11,7 +11,8 @@ data class Bestiary(
     val desc: String = "", // Descripción del ser
     var image: String = "", // URL de la imagen asociada al ser
     val loot: String? = "", // Botín que se puede obtener del ser (puede ser nulo)
-    val weakness: String? = "" // Debilidad del ser (puede ser nulo)
+    val weakness: String? = "", // Debilidad del ser (puede ser nulo)
+    var author: String? = "" // Autor de la entrada (puede ser nulo)
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -20,6 +21,7 @@ data class Bestiary(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
+        parcel.readString(),
         parcel.readString(),
         parcel.readString()
     )
@@ -37,6 +39,7 @@ data class Bestiary(
         dest.writeString(image)
         dest.writeString(loot)
         dest.writeString(weakness)
+        dest.writeString(author)
     }
 
     companion object CREATOR : Parcelable.Creator<Bestiary> {
@@ -47,5 +50,20 @@ data class Bestiary(
         override fun newArray(size: Int): Array<Bestiary?> {
             return arrayOfNulls(size)
         }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Bestiary
+
+        if (entryId != other.entryId) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return entryId.hashCode()
     }
 }

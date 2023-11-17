@@ -5,9 +5,11 @@ data class Weapons(
 )
 
 data class Weapon(
+    var entryId: String = "",
     val name: String = "",
     val base_damage: String = "",
     val bonuses: String? = null,
     val crafting_req: String? = null,
-    val imageUrl: String = ""
+    var imageUrl: String = "",
+    var author: String? = ""
 )

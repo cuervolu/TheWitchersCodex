@@ -4,6 +4,7 @@ import android.net.Uri
 import com.cuervolu.witcherscodex.domain.models.Bestiary
 import com.google.firebase.firestore.Query
 import timber.log.Timber
+import java.io.File
 import java.util.UUID
 
 import javax.inject.Inject
@@ -22,7 +23,7 @@ class BestiaryService @Inject constructor(
         onError: () -> Unit
     ) {
         val currentUser = firebase.auth.currentUser
-        if(currentUser == null) {
+        if (currentUser == null) {
             onError()
             return
         }
@@ -32,7 +33,7 @@ class BestiaryService @Inject constructor(
                 onSuccess = { downloadUrl ->
                     // Añade la URL de la imagen al objeto Bestiary
                     entry.image = downloadUrl
-
+                    entry.author = currentUser.uid
                     // Crea la entrada en Firestore
                     firebase.db.collection("bestiary")
                         .add(entry)
@@ -73,12 +74,129 @@ class BestiaryService @Inject constructor(
     }
 
 
-    override fun updateEntry(entry: Bestiary, onSuccess: () -> Unit, onError: () -> Unit) {
-        TODO("Not yet implemented")
+    override fun updateEntry(
+        entry: Bestiary,
+        imageUri: Uri?,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    ) {
+        // Asegúrate de que la entrada tenga un ID válido
+        val entryId = entry.entryId
+        if (entryId.isBlank()) {
+            Timber.w("ID de la entrada del bestiario en blanco.")
+            onError()
+            return
+        }
+
+        if (imageUri != null && entry.image != imageUri.toString() && imageUri.path?.let { File(it).exists() } == true) {
+            // Si hay una nueva imagen, sube la imagen y actualiza los datos
+            uploadImage(
+                imageUri,
+                onSuccess = { downloadUrl ->
+                    // Solo actualiza si la nueva URL es diferente de la existente
+                    if (entry.image != downloadUrl) {
+                        entry.image = downloadUrl
+                    }
+                    // Actualiza los datos en Firestore
+                    updateEntryInFirestore(entry, onSuccess, onError)
+                },
+                onError = {
+                    onError()
+                }
+            )
+        } else {
+            // Si no hay nueva imagen, solo actualiza los datos en Firestore
+            updateEntryInFirestore(entry, onSuccess, onError)
+        }
     }
 
+    private fun updateEntryInFirestore(
+        entry: Bestiary,
+        onSuccess: () -> Unit,
+        onError: () -> Unit,
+    ) {
+        // Obtiene la versión actual del objeto almacenada en Firestore
+        val entryReference = firebase.db.collection("bestiary").document(entry.entryId)
+
+        entryReference.get()
+            .addOnSuccessListener { documentSnapshot ->
+                if (documentSnapshot.exists()) {
+                    val originalEntry = documentSnapshot.toObject(Bestiary::class.java)
+
+                    // Compara cada campo y actualiza solo si es diferente
+                    val updates = mutableMapOf<String, Any>()
+
+                    if (originalEntry?.name != entry.name) {
+                        updates["name"] = entry.name
+                    }
+
+                    if (originalEntry?.desc != entry.desc) {
+                        updates["description"] = entry.desc
+                    }
+
+                    if (originalEntry?.location != entry.location) {
+                        updates["location"] = entry.location
+                    }
+
+                    if (originalEntry?.type != entry.type) {
+                        updates["type"] = entry.type
+                    }
+
+                    if (originalEntry?.loot != entry.loot) {
+                        updates["loot"] =
+                            entry.loot ?: "" // Usa una cadena vacía si entry.loot es nulo
+                    }
+
+                    if (originalEntry?.weakness != entry.weakness) {
+                        updates["weakness"] =
+                            entry.weakness ?: "" // Usa una cadena vacía si entry.weakness es nulo
+                    }
+
+
+                    if (originalEntry?.image != entry.image && entry.image.isNotEmpty()) {
+                        updates["image"] = entry.image
+                    }
+
+                    // Realiza la actualización en Firestore solo si hay cambios
+                    if (updates.isNotEmpty()) {
+                        firebase.db.collection("bestiary")
+                            .document(entry.entryId)
+                            .update(updates)
+                            .addOnSuccessListener {
+                                Timber.d("Entrada del bestiario actualizada con ID: ${entry.entryId}")
+                                onSuccess()
+                            }
+                            .addOnFailureListener { exception ->
+                                Timber.e("Error al actualizar la entrada del bestiario: ${exception.localizedMessage} | ${exception.cause}")
+                                onError()
+                            }
+                    } else {
+                        // No hay cambios, llama directamente al éxito
+                        onSuccess()
+                    }
+                } else {
+                    onError()
+                }
+            }
+            .addOnFailureListener { exception ->
+                Timber.e("Error al leer la entrada del bestiario para comparar: ${exception.localizedMessage} | ${exception.cause}")
+                onError()
+            }
+    }
+
+
     override fun deleteEntry(entryId: String, onSuccess: () -> Unit, onError: () -> Unit) {
-        TODO("Not yet implemented")
+        val entryRef = firebase.db.collection("bestiary").document(entryId)
+
+        entryRef.delete()
+            .addOnSuccessListener {
+                Timber.d("Entrada del bestiario eliminada con ID: $entryId")
+                onSuccess()
+            }
+            .addOnFailureListener { exception ->
+                Timber.e("Error al eliminar la entrada del bestiario: ${exception.localizedMessage} | ${exception.cause}")
+                onError()
+            }
     }
 
     private fun uploadImage(imageUri: Uri, onSuccess: (String) -> Unit, onError: () -> Unit) {
@@ -139,6 +257,4 @@ class BestiaryService @Inject constructor(
             }
 
     }
-
-
 }
